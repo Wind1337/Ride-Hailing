@@ -1,7 +1,9 @@
 class DriverNode:
-    def __init__(self, carType, seatCapacity, location):
+    def __init__(self, fullname, carType, seatCapacity, sharedRide, location):
+        self.fullname = fullname
         self.carType = carType
         self.seatCapacity = seatCapacity
+        self.sharedRide = sharedRide
         self.location = location
         self.next = None
         self.prev = None
@@ -55,3 +57,11 @@ class DriverLinkedList:
                     succ.prev = prev
                 del temp
         print("Not Found")
+
+
+DDL = DriverLinkedList()
+
+
+def new_driver(driFullName, driCarType, driSeatCapacity, driSharedRide, driLocation):
+    newNode = DriverNode(driFullName, driCarType, driSeatCapacity, driSharedRide, driLocation)
+    # DDL.insertAtHead(newNode)
