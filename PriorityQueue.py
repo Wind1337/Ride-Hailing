@@ -43,20 +43,21 @@ class QueueLinkedList:
             else:
                 if temp == self.head:
                     self.head = self.head.next
-                    self.head.prev = None
+                    if self.head!= None:self.head.prev = None
                 elif temp == self.tail:
                     self.tail = self.tail.prev
-                    self.tail.next = None
+                    if self.tail!=None:self.tail.next = None
                 else:
                     prev = temp.prev
                     succ = temp.next
                     prev.next = succ
                     succ.prev = prev
                 del temp
+                return
         print("Not Found")
 
     def insert(self, node):
-        if(node.cost <= self.head.cost):
+        if( self.__len__() == 0 or node.cost <= self.head.cost):
             self.insertAtHead(node)
         elif(node.cost>=self.tail.cost):
             self.insertAtTail(node)
@@ -83,7 +84,7 @@ class QueueLinkedList:
         return i
 
 
-class PriorityQueue():
+class PriorityQueue:
     def __init__(self):
         self.itemList = QueueLinkedList()
 
@@ -96,8 +97,11 @@ class PriorityQueue():
         self.itemList.insert(QueueNode(nodeid,cost))
 
     def dequeue(self):
-        result = {self.itemList.head.nodeID : self.itemList.head.cost}
-        self.itemList.delete()
+        result = {
+            "ID":self.itemList.head.nodeID,
+            "Cost":self.itemList.head.cost
+        }
+        self.itemList.delete(self.itemList.head.nodeID)
         return result
 
 
