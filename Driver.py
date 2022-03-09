@@ -1,13 +1,12 @@
 class DriverNode:
     driverID = 0
 
-    def __init__(self, fullname, carType, seatCapacity, sharedRide, location):
+    def __init__(self, fullname, carType, seatCapacity, location):
         DriverNode.driverID += 1
         self.driverID = DriverNode.driverID
         self.fullname = fullname
         self.carType = carType
         self.seatCapacity = seatCapacity
-        self.sharedRide = sharedRide
         self.location = location
         self.next = None
         self.prev = None
