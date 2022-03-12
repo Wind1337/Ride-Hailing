@@ -1,0 +1,16 @@
+{
+    "sharedMatchResult": [
+        {
+            "passenger1Name": "Shared 1",
+            "passenger1Pickup": 243702776,
+            "passenger1Dropoff": 5202652823,
+            "passenger2Name": "Shared 2",
+            "passenger2Pickup": 243702776,
+            "passenger2Dropoff": 5202652823,
+            "driverName": "Shared Driver 1",
+            "driverLocation": 243702776,
+            "driverCarType": "Standard",
+            "driverSeatCapacity": 6
+        }
+    ]
+}

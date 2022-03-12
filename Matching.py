@@ -14,7 +14,7 @@ def importNodes(nodeRaw):
         cords.append(i["latitude"])
         cords.append(i["longitude"])
         nodeDict[i["nodeID"]] = cords
-    print(nodeDict.get(236676523))
+    # print(nodeDict.get(236676523))
     return nodeDict
 
 
@@ -58,6 +58,7 @@ def match(DriverList, PassengerList):
         currentPassenger = currentPassenger.next
     return matchList, sharedMatchList
 
+
 def sharedMatch(currentPassenger, PassengerList, DriverList, sharedMatchList):
     currentPassenger1 = currentPassenger
     currentDriver = DriverList.getHead()
@@ -78,13 +79,13 @@ def sharedMatch(currentPassenger, PassengerList, DriverList, sharedMatchList):
                     driverLocation = currentDriver.location
                     distance1 = approxDistance(passengerPickup1, driverLocation)
                     distance2 = approxDistance(passengerPickup2, driverLocation)
-                    if(distance1 < 1000):
+                    if (distance1 < 1000):
                         sharedMatchList.append([currentPassenger1, currentPassenger2, currentDriver])
                         DriverList.delete(currentDriver.driverID)
                         PassengerList.delete(currentPassenger1.passengerID)
                         PassengerList.delete(currentPassenger2.passengerID)
                         return
-                    elif(distance2 < 1000):
+                    elif (distance2 < 1000):
                         sharedMatchList.append([currentPassenger2, currentPassenger1, currentDriver])
                         DriverList.delete(currentDriver.driverID)
                         PassengerList.delete(currentPassenger1.passengerID)
@@ -118,8 +119,51 @@ testDriver = Driver.DriverNode("Shared Driver 1", "Standard", 6, 243702776)
 testDriverLinkedList.insertAtTail(testDriver)
 
 matchResult, sharedMatchResult = match(testDriverLinkedList, testPassengerLinkedList)
+matchResultList = []
+matchResultDict = {"matchResult": matchResultList}
 for i in range(len(matchResult)):
+    matchAttrDict = {}
+    # Passenger Attributes
+    matchAttrDict["passengerName"] = matchResult[i][0].fullname
+    matchAttrDict["passengerPickup"] = matchResult[i][0].pickup
+    matchAttrDict["passengerDropoff"] = matchResult[i][0].dropoff
+    matchAttrDict["passengerCarType"] = matchResult[i][0].reqCarType
+    matchAttrDict["passengerSeatCapacity"] = matchResult[i][0].reqSeatCapacity
+    # Driver Attributes
+    matchAttrDict["driverName"] = matchResult[i][1].fullname
+    matchAttrDict["driverLocation"] = matchResult[i][1].location
+    matchAttrDict["driverCarType"] = matchResult[i][1].carType
+    matchAttrDict["driverSeatCapacity"] = matchResult[i][1].seatCapacity
+    matchResultList.append(matchAttrDict)
     print("Matched:", matchResult[i][0].fullname, "and", matchResult[i][1].fullname)
+
+sharedMatchResultList = []
+sharedMatchResultDict = {"sharedMatchResult": sharedMatchResultList}
 for i in range(len(sharedMatchResult)):
+    sharedMatchAttrDict = {}
+    # 1st Passenger to Pickup
+    sharedMatchAttrDict["passenger1Name"] = sharedMatchResult[i][0].fullname
+    sharedMatchAttrDict["passenger1Pickup"] = sharedMatchResult[i][0].pickup
+    sharedMatchAttrDict["passenger1Dropoff"] = sharedMatchResult[i][0].dropoff
+    # 2nd Passenger to Pickup
+    sharedMatchAttrDict["passenger2Name"] = sharedMatchResult[i][1].fullname
+    sharedMatchAttrDict["passenger2Pickup"] = sharedMatchResult[i][1].pickup
+    sharedMatchAttrDict["passenger2Dropoff"] = sharedMatchResult[i][1].dropoff
+    # Driver Attributes
+    sharedMatchAttrDict["driverName"] = sharedMatchResult[i][2].fullname
+    sharedMatchAttrDict["driverLocation"] = sharedMatchResult[i][2].location
+    sharedMatchAttrDict["driverCarType"] = sharedMatchResult[i][2].carType
+    sharedMatchAttrDict["driverSeatCapacity"] = sharedMatchResult[i][2].seatCapacity
+    sharedMatchResultList.append(sharedMatchAttrDict)
     print("Shared Matched Passengers:", sharedMatchResult[i][0].fullname, "and", sharedMatchResult[i][1].fullname,
           "and driver:", sharedMatchResult[i][2].fullname)
+
+json_object = json.dumps(matchResultDict, indent=4)
+
+with open("./output/match.json", "w") as outfile:
+    outfile.write(json_object)
+
+json_object = json.dumps(sharedMatchResultDict, indent=4)
+
+with open("./output/sharedMatch.json", "w") as outfile:
+    outfile.write(json_object)
