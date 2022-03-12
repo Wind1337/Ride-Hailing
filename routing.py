@@ -74,6 +74,7 @@ def routing(graph: WeightedGraph, startID, endID):
                 routeTable[i] = currentNode["ID"]
 
     print("Path Not Found")
+    return False
 
 
 def reconstruct_path(routeTable, startID, endID):
@@ -88,4 +89,7 @@ def reconstruct_path(routeTable, startID, endID):
 
 
 # print(routing(graph,4700694098,9142407272))
-print(reconstruct_path(routing(graph, 6542773042, 4600448914), 6542773042, 4600448914))
+resultRouteTable = routing(graph, 6542773042, 4600448914)
+if resultRouteTable:
+    resultPath = reconstruct_path(resultRouteTable, 6542773042, 4600448914)
+    print(resultPath)
