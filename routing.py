@@ -63,7 +63,6 @@ def routing(graph: WeightedGraph, startID, endID):
 
     while not pqueue.isEmpty():
         currentNode = pqueue.dequeue()
-        print(currentNode["ID"])
         if currentNode["ID"] == endID: break
 
         for i in graph.neighbour(currentNode["ID"]):
@@ -88,5 +87,5 @@ def reconstruct_path(routeTable, startID, endID):
     return path
 
 
-# print(routing(graph,4693680104,5202680844))
-print(reconstruct_path(routing(graph, 4693680104, 5202680844), 4693680104, 5202680844))
+# print(routing(graph,4700694096,5202680844))
+print(reconstruct_path(routing(graph, 6542773042, 4600448914), 6542773042, 4600448914))
