@@ -63,7 +63,7 @@ def routing(graph: WeightedGraph, startID, endID):
 
     while not pqueue.isEmpty():
         currentNode = pqueue.dequeue()
-        if currentNode["ID"] == endID: break
+        if currentNode["ID"] == endID: return routeTable
 
         for i in graph.neighbour(currentNode["ID"]):
             Gscore = GscoreTable[currentNode["ID"]] + graph.cost(currentNode["ID"], i)
@@ -73,7 +73,7 @@ def routing(graph: WeightedGraph, startID, endID):
                 pqueue.enqueue(i, Fscore)
                 routeTable[i] = currentNode["ID"]
 
-    return routeTable
+    print("Path Not Found")
 
 
 def reconstruct_path(routeTable, startID, endID):
@@ -87,5 +87,5 @@ def reconstruct_path(routeTable, startID, endID):
     return path
 
 
-# print(routing(graph,4700694096,5202680844))
+# print(routing(graph,4700694098,9142407272))
 print(reconstruct_path(routing(graph, 6542773042, 4600448914), 6542773042, 4600448914))
