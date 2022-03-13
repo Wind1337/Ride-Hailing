@@ -107,7 +107,7 @@ testDriverLinkedList.insertAtTail(testDriver)
 testPassengerLinkedList.insertAtTail(testPassenger)
 
 testDriver = Driver.DriverNode("Tan Ah Ming", "Standard", 6, 243702776)
-testPassenger = Passenger.PassengerNode("Big Ming", 243702776, 5202652823, "Standard", 4, False)
+testPassenger = Passenger.PassengerNode("Big Ming", 243702776, 5202652823, "Standard", 4)
 testDriverLinkedList.insertAtTail(testDriver)
 testPassengerLinkedList.insertAtTail(testPassenger)
 
