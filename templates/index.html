@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Lift Ride Hailing</title>
+        <meta name="veiwport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+
+		<!--Styling-->
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+
+		<!--OneMap-->
+		<script src="https://cdn.onemap.sg/leaflet/onemap-leaflet.js"></script>
+	</head>
+    <body>
+        <div class="container">
+
+            <ul class="hex-area">
+                <li class="hex1"></li>
+                <li class="hex2"></li>
+                <li class="hex3"></li>
+                <li class="hex4"></li>
+                <li class="hex5"></li>
+                <li class="hex6"></li>
+            </ul>
+
+            <div class="row mt-3">
+                <div class="col text-center">
+                    <h1>Lift Ride Hailing</h1>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col">
+                    <input class="form-control" id="search" type="text" placeholder="Search..."/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div id='mapdiv' style='height:500px; margin-top: 20px; border-radius: 2%;'></div>
+                </div>
+            </div>
+
+			<div class="row" style="margin-top: 10px">
+                <div class="col">
+                    <a class="btn btn-primary" data-toggle="modal" href='#passenger-form'>Add Passenger</a>
+					<a class="btn btn-primary" data-toggle="modal" href='#driver-form'>Add Driver</a>
+                </div>
+            </div>
+
+			<!-- Passenger form -->
+			<div class="modal fade" id="passenger-form">
+			  <div class="modal-dialog shadow-lg p-3 mb-5 bg-white rounded">
+				<div class="modal-content sub-bg">
+				  <div class="modal-header subs-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				  </div>
+				  <div class="modal-body">
+					<div class="text-center">
+					  <img class="img-fluid" src="../static/image_passenger.png" alt="">
+					</div>
+					<div class="heading-text text-center ">
+						<p class="shadow p-3 mb-5" style="color: black; font-size: 20px; font-family: Courier New"><strong>"A Smarter Way To Work"</strong></p>
+					</div>
+					<div class="row">
+					  <div class="col-md-12">
+						<form id="pass-form" action="/index" method="POST">
+						  <div class="form-group row">
+							<div class="col-md-12 col-xs-12">
+							  <label for="passFullName" class="">Full Name </label>
+							  <input type="text" class="form-control" id="passFullName" name="passFullName" placeholder="Please enter full name" required>
+							</div>
+							<div class="col-md-12 col-xs-12">
+							  <label for="passPickUp">Pick-Up Venue </label>
+							  <input type="text" class="form-control" id="passPickUp" name="passPickUp" placeholder="Please enter pick-up venue" required>
+							</div>
+							<div class="col-md-12 col-xs-12">
+							  <label for="passDropOff">Drop-Off Venue </label>
+							  <input type="text" class="form-control" id="passDropOff" name="passDropOff" placeholder="Please enter drop-off venue" required>
+							</div>
+							<div class="col-md-12 col-xs-12">
+							  <label for="passCarType">Preferred Car Type </label>
+							  <select class="form-control" id="passCarType" name="passCarType" placeholder="Please choose preferred car type" required>
+								<option value="Standard">Standard</option>
+								<option value="Premium">Premium</option>
+							  </select>
+							</div>
+							<div class="col-md-12 col-xs-12">
+							  <label for="passSeatCapacity">Preferred Seat Capacity </label>
+							  <select class="form-control" id="passSeatCapacity" name="passSeatCapacity" placeholder="Please choose preferred seat capacity" required>
+								<option value="4">4</option>
+								<option value="6">6</option>
+							  </select>
+							</div>
+							<div class="col-md-12 col-xs-12">
+							  <label for="passSharedRide">Shared ride </label>
+							  <select class="form-control" id="passSharedRide" name="passSharedRide" placeholder="Please choose preferred ride" required>
+								<option value="Yes">Yes</option>
+								<option value="No">No</option>
+							  </select>
+							</div>
+						  </div>
+						  <button type="submit" class="btn btn-primary text-center">Submit</button>
+						</form>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+
+			<!-- Driver form -->
+			<div class="modal fade" id="driver-form">
+			  <div class="modal-dialog shadow-lg p-3 mb-5 bg-white rounded">
+				<div class="modal-content sub-bg">
+				  <div class="modal-header subs-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				  </div>
+				  <div class="modal-body">
+					<div class="text-center">
+					  <img class="img-fluid" src="../static/image_driver.jpg" alt="">
+					</div>
+					<div class="heading-text text-center ">
+						<p class="shadow p-3 mb-5" style="color: black; font-size: 20px; font-family: Courier New"><strong>"Faster Is Fatal, Slower Is Safe"</strong></p>
+					</div>
+					<div class="row">
+					  <div class="col-md-12">
+						<form id="dri-form" action="/index" method="POST">
+						  <div class="form-group row">
+							<div class="col-md-12 col-xs-12">
+							  <label for="driFullName" class="">Full Name </label>
+							  <input type="text" class="form-control" id="driFullName" name="driFullName" placeholder="Please enter full name" required>
+							</div>
+							<div class="col-md-12 col-xs-12">
+							  <label for="driCarType">Car Type </label>
+							  <select class="form-control" id="driCarType" name="driCarType" placeholder="Please choose car type" required>
+								<option value="Standard">Standard</option>
+								<option value="Premium">Premium</option>
+							  </select>
+							</div>
+							<div class="col-md-12 col-xs-12">
+							  <label for="driSeatCapacity">Seat Capacity </label>
+							  <select class="form-control" id="driSeatCapacity" name="driSeatCapacity" placeholder="Please choose seat capacity" required>
+								<option value="4">4</option>
+								<option value="6">6</option>
+							  </select>
+							</div>
+							<div class="col-md-12 col-xs-12">
+							  <label for="driSharedRide">Shared ride </label>
+							  <select class="form-control" id="driSharedRide" name="driSharedRide" placeholder="Please choose ride" required>
+								<option value="Yes">Yes</option>
+								<option value="No">No</option>
+							  </select>
+							</div>
+							<div class="col-md-12 col-xs-12">
+							  <label for="driLocation">Current Location </label>
+							  <input type="text" class="form-control" id="driLocation" name="driLocation" placeholder="Please enter current location" required>
+							</div>
+						  </div>
+						  <button type="submit" class="btn btn-primary text-center">Submit</button>
+						</form>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+
+            <!-- Script and api script -->
+			<script src="https://code.jquery.com/jquery.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+			<script src="{{ url_for('static', filename='script.js') }}"></script>
+        </div>
+
+    </body>
+</html>

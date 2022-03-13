@@ -1,14 +1,15 @@
 class PassengerNode:
     passengerID = 0
 
-    def __init__(self, name, pickup, dropoff, reqCarType, reqSeatCapacity):
+    def __init__(self, fullname, pickup, dropoff, reqCarType, reqSeatCapacity, reqSharedRide):
         PassengerNode.passengerID += 1
         self.passengerID = PassengerNode.passengerID
-        self.name = name
+        self.fullname = fullname
         self.pickup = pickup
         self.dropoff = dropoff
         self.reqCarType = reqCarType
         self.reqSeatCapacity = reqSeatCapacity
+        self.reqSharedRide = reqSharedRide
         self.next = None
         self.prev = None
 
@@ -65,3 +66,11 @@ class PassengerLinkedList:
                 del temp
                 return
         print("Not Found")
+
+
+PPL = PassengerLinkedList()
+
+
+def new_passenger(passFullName, passPickUp, passDropOff, passCarType, passSeatCapacity, passSharedRide):
+    newNode = PassengerNode(passFullName, passPickUp, passDropOff, passCarType, passSeatCapacity, passSharedRide)
+    # PPL.insertAtHead(newNode)
