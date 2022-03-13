@@ -92,4 +92,11 @@ def reconstruct_path(routeTable, startID, endID):
 resultRouteTable = routing(graph, 6542773042, 4600448914)
 if resultRouteTable:
     resultPath = reconstruct_path(resultRouteTable, 6542773042, 4600448914)
-    print(resultPath)
+    pathDict = {"path": resultPath}
+    # print(resultPath)
+else:
+    pathDict = {"path": ["Path Not Found"]}
+
+json_object = json.dumps(pathDict, indent=4)
+with open("./output/route.json", "w") as outfile:
+    outfile.write(json_object)
