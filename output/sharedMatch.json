@@ -3,12 +3,22 @@
         {
             "passenger1Name": "Shared 1",
             "passenger1Pickup": 243702776,
+            "passenger1PickupLat": 1.3870417,
+            "passenger1PickupLong": 103.7628886,
             "passenger1Dropoff": 5202652823,
+            "passenger1DropoffLat": 1.3865747,
+            "passenger1DropoffLong": 103.7631774,
             "passenger2Name": "Shared 2",
             "passenger2Pickup": 243702776,
+            "passenger2PickupLat": 1.3870417,
+            "passenger2PickupLong": 103.7628886,
             "passenger2Dropoff": 5202652823,
+            "passenger2DropoffLat": 1.3865747,
+            "passenger2DropoffLong": 103.7631774,
             "driverName": "Shared Driver 1",
             "driverLocation": 243702776,
+            "driverLocationLat": 1.3870417,
+            "driverLocationLong": 103.7628886,
             "driverCarType": "Standard",
             "driverSeatCapacity": 6
         }

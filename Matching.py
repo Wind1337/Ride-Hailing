@@ -126,12 +126,18 @@ for i in range(len(matchResult)):
     # Passenger Attributes
     matchAttrDict["passengerName"] = matchResult[i][0].fullname
     matchAttrDict["passengerPickup"] = matchResult[i][0].pickup
+    matchAttrDict["passengerPickupLat"] = nodeDict.get(matchResult[i][0].pickup)[0]
+    matchAttrDict["passengerPickupLong"] = nodeDict.get(matchResult[i][0].pickup)[1]
     matchAttrDict["passengerDropoff"] = matchResult[i][0].dropoff
+    matchAttrDict["passengerDropoffLat"] = nodeDict.get(matchResult[i][0].dropoff)[0]
+    matchAttrDict["passengerDropoffLong"] = nodeDict.get(matchResult[i][0].dropoff)[1]
     matchAttrDict["passengerCarType"] = matchResult[i][0].reqCarType
     matchAttrDict["passengerSeatCapacity"] = matchResult[i][0].reqSeatCapacity
     # Driver Attributes
     matchAttrDict["driverName"] = matchResult[i][1].fullname
     matchAttrDict["driverLocation"] = matchResult[i][1].location
+    matchAttrDict["driverLocationLat"] = nodeDict.get(matchResult[i][1].location)[0]
+    matchAttrDict["driverLocationLong"] = nodeDict.get(matchResult[i][1].location)[1]
     matchAttrDict["driverCarType"] = matchResult[i][1].carType
     matchAttrDict["driverSeatCapacity"] = matchResult[i][1].seatCapacity
     matchResultList.append(matchAttrDict)
@@ -144,14 +150,24 @@ for i in range(len(sharedMatchResult)):
     # 1st Passenger to Pickup
     sharedMatchAttrDict["passenger1Name"] = sharedMatchResult[i][0].fullname
     sharedMatchAttrDict["passenger1Pickup"] = sharedMatchResult[i][0].pickup
+    sharedMatchAttrDict["passenger1PickupLat"] = nodeDict.get(sharedMatchResult[i][0].pickup)[0]
+    sharedMatchAttrDict["passenger1PickupLong"] = nodeDict.get(sharedMatchResult[i][0].pickup)[1]
     sharedMatchAttrDict["passenger1Dropoff"] = sharedMatchResult[i][0].dropoff
+    sharedMatchAttrDict["passenger1DropoffLat"] = nodeDict.get(sharedMatchResult[i][0].dropoff)[0]
+    sharedMatchAttrDict["passenger1DropoffLong"] = nodeDict.get(sharedMatchResult[i][0].dropoff)[1]
     # 2nd Passenger to Pickup
     sharedMatchAttrDict["passenger2Name"] = sharedMatchResult[i][1].fullname
     sharedMatchAttrDict["passenger2Pickup"] = sharedMatchResult[i][1].pickup
+    sharedMatchAttrDict["passenger2PickupLat"] = nodeDict.get(sharedMatchResult[i][1].pickup)[0]
+    sharedMatchAttrDict["passenger2PickupLong"] = nodeDict.get(sharedMatchResult[i][1].pickup)[1]
     sharedMatchAttrDict["passenger2Dropoff"] = sharedMatchResult[i][1].dropoff
+    sharedMatchAttrDict["passenger2DropoffLat"] = nodeDict.get(sharedMatchResult[i][1].dropoff)[0]
+    sharedMatchAttrDict["passenger2DropoffLong"] = nodeDict.get(sharedMatchResult[i][1].dropoff)[1]
     # Driver Attributes
     sharedMatchAttrDict["driverName"] = sharedMatchResult[i][2].fullname
     sharedMatchAttrDict["driverLocation"] = sharedMatchResult[i][2].location
+    sharedMatchAttrDict["driverLocationLat"] = nodeDict.get(sharedMatchResult[i][2].location)[0]
+    sharedMatchAttrDict["driverLocationLong"] = nodeDict.get(sharedMatchResult[i][2].location)[1]
     sharedMatchAttrDict["driverCarType"] = sharedMatchResult[i][2].carType
     sharedMatchAttrDict["driverSeatCapacity"] = sharedMatchResult[i][2].seatCapacity
     sharedMatchResultList.append(sharedMatchAttrDict)
