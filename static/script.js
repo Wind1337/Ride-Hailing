@@ -1,29 +1,32 @@
-var center = L.bounds([1.56073, 104.11475], [1.16, 103.502]).getCenter();
-var map = L.map('mapdiv').setView([center.x, center.y], 12);
+var map = L.map('mapdiv').setView([1.3790334, 103.7642649], 18);
+	L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=b74gkn1VskvsZy9K7x1q',{
+	tileSize: 512,
+	zoomOffset: -1,
+	minZoom: 1,
+	attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+	crossOrigin: true
+	}).addTo(map);
 
-var basemap = L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png', {
-detectRetina: true,
-maxZoom: 18,
-minZoom: 11
-});
+var passPickupMarker = L.marker([1.3790334, 103.7642649]).addTo(map);
+var passDropOffMarker = L.marker([1.3790293, 103.7640756]).addTo(map);
+var driLocation = L.marker([1.3842443, 103.7598278]).addTo(map);
 
-map.setMaxBounds([[1.56073, 104.1147], [1.16, 103.502]]);
+var distanceFromLocationToPickup = L.polygon([
+[1.3842443, 103.7598278],
+[1.3790334, 103.7642649]
+]).addTo(map);
 
-basemap.addTo(map);
+var distanceFromPickupToDropOff = L.polygon([
+[1.3790334, 103.7642649],
+[1.3790293, 103.7640756]
+]).addTo(map);
 
-function getLocation() {
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(showPosition);
-}
-}
+passPickupMarker.bindPopup("Pick Up Point").openPopup();
+passDropOffMarker.bindPopup("Drop Off Point")
+driLocation.bindPopup("Driver's Location")
+distanceFromLocationToPickup.bindPopup("Distance from Driver's Location to Pick-Up Venue")
+distanceFromPickupToDropOff.bindPopup("Distance from Pick-Up Venue to Drop-Off Venue")
 
-function showPosition(position) {
-marker = new L.Marker([position.coords.latitude, position.coords.longitude], {bounceOnAdd: false}).addTo(map);
-var popup = L.popup()
-.setLatLng([position.coords.latitude, position.coords.longitude])
-.setContent('You are here!')
-.openOn(map);
-}
 
 var displayPass = function () {
   $("#passenger-form").modal("show");

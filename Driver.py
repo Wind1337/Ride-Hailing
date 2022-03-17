@@ -66,9 +66,9 @@ class DriverLinkedList:
         print("Not Found")
 
 
-DDL = DriverLinkedList()
+DLL = DriverLinkedList()
 
 
 def new_driver(driFullName, driCarType, driSeatCapacity, driSharedRide, driLocation):
     newNode = DriverNode(driFullName, driCarType, driSeatCapacity, driSharedRide, driLocation)
-    # DDL.insertAtHead(newNode)
+    # DLL.insertAtHead(newNode)

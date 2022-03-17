@@ -68,9 +68,9 @@ class PassengerLinkedList:
         print("Not Found")
 
 
-PPL = PassengerLinkedList()
+PLL = PassengerLinkedList()
 
 
 def new_passenger(passFullName, passPickUp, passDropOff, passCarType, passSeatCapacity, passSharedRide):
     newNode = PassengerNode(passFullName, passPickUp, passDropOff, passCarType, passSeatCapacity, passSharedRide)
-    # PPL.insertAtHead(newNode)
+    # PLL.insertAtHead(newNode)
