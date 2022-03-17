@@ -1,6 +1,7 @@
 from flask import *
 from Passenger import *
 from Driver import *
+import json
 
 app = Flask(__name__)
 
@@ -35,9 +36,39 @@ def index():
             driLocation = request.form.get('driLocation')
             new_driver(driFullName, driCarType, driSeatCapacity, driSharedRide, driLocation)
             print("ADDED NEW DRIVER")
+
         return redirect(url_for('index'))
     else:
-        return render_template('index.html')
+        '''with open('output/match.json') as file:
+            data = json.load(file)
+
+        for element in data['matchResult']:
+
+            print(element["passengerName"], element["passengerPickup"], element["passengerDropoff"], element["driverName"], element["driverLocation"])
+        '''
+
+        node = []
+
+        with open("output/route.json") as file:
+            data = json.load(file)
+
+            for element in data['path']:
+                node.append(element)
+
+        route = [[0 for row in range(2)] for column in range(len(node))]
+
+        with open("data/nodes.json") as file:
+            data = json.load(file)
+
+            for index in range(len(node)):
+
+                for element in data['nodes']:
+
+                    if element['nodeID'] == node[index]:
+                        route[index][0] = element['latitude']
+                        route[index][1] = element['longitude']
+
+        return render_template('index.html', route=route)
 
 
 if __name__ == '__main__':
