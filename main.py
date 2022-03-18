@@ -20,30 +20,10 @@ def index():
         selectedPass = request.form.get("selectedPass")
         print(selectedPass)
 
-        passFullName = request.form.get('passFullName')
-        # if passenger form is fill in
-        if passFullName is not None:
-            passPickUp = request.form.get('passPickUp')
-            passDropOff = request.form.get('passDropOff')
-            passCarType = request.form.get('passCarType')
-            passSeatCapacity = request.form.get('passSeatCapacity')
-            passSharedRide = request.form.get('passSharedRide')
-            new_passenger(passFullName, passPickUp, passDropOff, passCarType, passSeatCapacity, passSharedRide)
-            print("ADDED NEW PASSENGER")
-
-        driFullName = request.form.get('driFullName')
-        # if driver form is fill in
-        if driFullName is not None:
-            driCarType = request.form.get('driCarType')
-            driSeatCapacity = request.form.get('driSeatCapacity')
-            driSharedRide = request.form.get('driSharedRide')
-            driLocation = request.form.get('driLocation')
-            new_driver(driFullName, driCarType, driSeatCapacity, driSharedRide, driLocation)
-            print("ADDED NEW DRIVER")
-
         return redirect(url_for('index'))
     else:
-        passArray = []
+        singlePassArray = []
+        sharedPassArray = []
         node = []
 
         with open("output/route.json") as file:
@@ -66,13 +46,14 @@ def index():
                         route[index][1] = element['longitude']
 
         for i in range(len(matchResultList)):
-            passArray.append(matchResultList[i].get('passengerName'))
+            singlePassArray.append(matchResultList[i].get('passengerName'))
 
         for i in range(len(sharedMatchResultList)):
-            passArray.append(sharedMatchResultList[i].get('passenger1Name'))
-            passArray.append(sharedMatchResultList[i].get('passenger2Name'))
+            sharedPassArray.append(sharedMatchResultList[i].get('passenger1Name'))
+            sharedPassArray.append(sharedMatchResultList[i].get('passenger2Name'))
 
-        return render_template('index.html', route=route, passArray=passArray)
+        return render_template('index.html', route=route, singlePassArray=singlePassArray,
+                               sharedPassArray=sharedPassArray)
 
 
 if __name__ == '__main__':

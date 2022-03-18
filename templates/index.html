@@ -1,193 +1,182 @@
-<!DOCTYPE html>
-<html lang="en-US">
-    <head>
-        <title>Lift Ride Hailing</title>
-        <meta name="veiwport" content="initial-scale=1.0">
-        <meta charset="utf-8">
+<!doctype html>
+<html lang="en">
 
-		<!--Styling-->
-		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="ThemeStarz">
 
-		<!--MapTiler-->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-	</head>
-    <body>
-        <div class="container">
+    <!--CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='jquery.scrollbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='leaflet.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-            <ul class="hex-area">
-                <li class="hex1"></li>
-                <li class="hex2"></li>
-                <li class="hex3"></li>
-                <li class="hex4"></li>
-                <li class="hex5"></li>
-                <li class="hex6"></li>
-            </ul>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
 
-            <div class="row mt-3">
-                <div class="col text-center">
-                    <h1>Lift Ride Hailing</h1>
+    <title>MyHouse - Advanced Real Estate HTML Template by ThemeStarz</title>
+
+</head>
+
+<body>
+
+<!-- WRAPPER
+=====================================================================================================================-->
+<div class="ts-page-wrapper ts-homepage" id="page-top">
+
+    <!--*********************************************************************************************************-->
+    <!--HEADER **************************************************************************************************-->
+    <!--*********************************************************************************************************-->
+    <header id="ts-header" class="fixed-top">
+	
+		<!--Main level link-->
+        <h1 style="font-family: Courier New; font-weight: bold; text-align: center; margin-top: 15px; margin-bottom: 15px; font-size: 35px; background-color: inherit;">Lift Ride Hailing
+			<img src="../static/ride_hailing_icon.png" style="max-width:3%;" alt="">
+		</h1>
+
+    </header>
+    <!--end Header-->
+
+    <!-- HERO MAP
+    =================================================================================================================-->
+    <section id="ts-hero" class=" mb-0">
+
+        <!--Fullscreen mode-->
+        <div class="ts-full-screen ts-has-horizontal-results w-1001 d-flex1 flex-column1">
+
+            <!-- MAP
+            =========================================================================================================-->
+            <div class="ts-map ts-shadow__sm" style="height:100%;">
+
+                <!-- FORM
+                =====================================================================================================-->
+                <div class="ts-form__map-search ts-z-index__2" style="margin-left:35px;">
+                    <!--Form-->
+                    <form class="ts-form">
+
+                        <!--Collapse button-->
+                        <a href=".ts-form-collapse" data-toggle="collapse" class="ts-center__vertical justify-content-between">
+                            <h5 class="mb-0">Passenger's Details</h5>
+                        </a>
+
+                        <!--Form-->
+                        <div class="ts-form-collapse ts-xs-hide-collapse collapse show">
+
+							<!--Keyword-->
+                            <div class="form-group my-2 pt-2">
+								<h6 class="mb-0">Passenger's Name: </h6>
+                            </div>
+							
+							<!--Keyword-->
+                            <div class="form-group my-2 pt-2">
+								<h6 class="mb-0">Driver's Name: </h6>
+                            </div>
+							
+                            <!--Keyword-->
+                            <div class="form-group my-2 pt-2">
+								<h6 class="mb-0">Pick-Up Location: </h6>
+                            </div>
+							
+							<!--Keyword-->
+                            <div class="form-group my-2 pt-2">
+								<h6 class="mb-0">Drop-Off Location: </h6>
+                            </div>
+
+                        </div>
+                        <!--end ts-form-collapse-->
+
+                    </form>
+                    <!--end ts-form-->
+					
+					<!--Form-->
+                    <form class="ts-form" style="margin-top: 5px;" action="/index" method="POST" id="optionForm">
+
+                        <!--Collapse button-->
+                        <a href=".ts-form-collapse2" data-toggle="collapse" class="ts-center__vertical justify-content-between">
+                            <h5 class="mb-0">Search Passenger</h5>
+                        </a>
+
+                        <!--Form-->
+                        <div class="ts-form-collapse2 ts-xs-hide-collapse collapse show">
+
+                            <!--Single Rides-->
+                            <select class="custom-select my-2" id="single" name="selectedPass">
+                                <option value="" disabled selected>Single Rides</option>
+                                {% for single in singlePassArray %}
+                                    <option value="{{single}}">{{single}}</option>
+                                {% endfor %}
+                            </select>
+
+                            <!--Shared Rides-->
+                            <select class="custom-select my-2" id="shared" name="selectedPass">
+                                <option value="" disabled selected>Shared Rides</option>
+                                {% for shared in sharedPassArray %}
+                                    <option value="{{shared}}">{{shared}}</option>
+                                {% endfor %}
+                            </select>
+
+                            <!--Submit button-->
+                            <div class="form-group mt-2 mb-3">
+                                <button type="submit" class="btn btn-primary w-100" id="search-btn">Search</button>
+                            </div>
+
+                        </div>
+                        <!--end ts-form-collapse-->
+
+                    </form>
+                    <!--end ts-form-->
+					
                 </div>
+                <!--end ts-form__map-search-->
+				
+				<!-- <div id='mapdiv' style='z-index: -1;'></div> -->
+
+                <div id="ts-map-hero" class="h-100 ts-z-index__1"
+                     data-ts-map-leaflet-provider="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=b74gkn1VskvsZy9K7x1q"
+                     data-ts-map-leaflet-attribution="&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> &copy; <a href='http://cartodb.com/attributions'>CartoDB</a>"
+                     data-ts-map-zoom-position="bottomright"
+                     data-ts-map-scroll-wheel="1"
+                     data-ts-map-zoom="17"
+                     data-ts-map-center-latitude="1.3790334"
+                     data-ts-map-center-longitude="103.7642649"
+                     data-ts-locale="en-US"
+                     data-ts-currency="USD"
+                     data-ts-unit="m<sup>2</sup>"
+                     data-ts-display-additional-info="area_Area;bedrooms_Bedrooms;bathrooms_Bathrooms"
+                >
+                </div>
+
             </div>
 
-			<div class="row mt-2">
-				<div class="col" style="padding-right:0px; padding-left:0px;">
-					<form action="/index" method="POST" id="optionForm">
-						<select name="selectedPass" class="form-control" onchange="submitForm();">
-							<option value="" disabled selected>Search Passenger's Name...</option>
-							{% for pass in passArray %}
-								<option value="{{pass}}">{{pass}}</option>
-							{% endfor %}
-						</select>
-					</form>
-				</div>
-			</div>
+            <!-- RESULTS
+            =========================================================================================================-->
+            <!-- <div id="ts-results" class="ts-results__horizontal scrollbar-inner dragscroll">
+                <div class="ts-results-wrapper"></div>
+            </div> -->
 
-            <div class="row">
-                <div class="col" style="padding-right:0px; padding-left:0px;">
-                    <div id='mapdiv' style='height:500px; margin-top: 20px; border-radius: 2%;'>
-						<a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
-					</div>
-					<p><a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a></p>
-                </div>
-            </div>
-
-			<div class="row" style="margin-top: 10px">
-                <div class="col">
-                    <a class="btn btn-primary" data-toggle="modal" href='#passenger-form'>Add Passenger</a>
-					<a class="btn btn-primary" data-toggle="modal" href='#driver-form'>Add Driver</a>
-                </div>
-            </div>
-
-			<!-- Passenger form -->
-			<div class="modal fade" id="passenger-form">
-			  <div class="modal-dialog shadow-lg p-3 mb-5 bg-white rounded">
-				<div class="modal-content sub-bg">
-				  <div class="modal-header subs-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				  </div>
-				  <div class="modal-body">
-					<div class="text-center">
-					  <img class="img-fluid" src="../static/image_passenger.png" alt="">
-					</div>
-					<div class="heading-text text-center ">
-						<p class="shadow p-3 mb-5" style="color: black; font-size: 20px; font-family: Courier New"><strong>"A Smarter Way To Work"</strong></p>
-					</div>
-					<div class="row">
-					  <div class="col-md-12">
-						<form id="pass-form" action="/index" method="POST">
-						  <div class="form-group row">
-							<div class="col-md-12 col-xs-12">
-							  <label for="passFullName" class="">Full Name </label>
-							  <input type="text" class="form-control" id="passFullName" name="passFullName" placeholder="Please enter full name" required>
-							</div>
-							<div class="col-md-12 col-xs-12">
-							  <label for="passPickUp">Pick-Up Venue </label>
-							  <input type="text" class="form-control" id="passPickUp" name="passPickUp" placeholder="Please enter pick-up venue" required>
-							</div>
-							<div class="col-md-12 col-xs-12">
-							  <label for="passDropOff">Drop-Off Venue </label>
-							  <input type="text" class="form-control" id="passDropOff" name="passDropOff" placeholder="Please enter drop-off venue" required>
-							</div>
-							<div class="col-md-12 col-xs-12">
-							  <label for="passCarType">Preferred Car Type </label>
-							  <select class="form-control" id="passCarType" name="passCarType" placeholder="Please choose preferred car type" required>
-								<option value="Standard">Standard</option>
-								<option value="Premium">Premium</option>
-							  </select>
-							</div>
-							<div class="col-md-12 col-xs-12">
-							  <label for="passSeatCapacity">Preferred Seat Capacity </label>
-							  <select class="form-control" id="passSeatCapacity" name="passSeatCapacity" placeholder="Please choose preferred seat capacity" required>
-								<option value="4">4</option>
-								<option value="6">6</option>
-							  </select>
-							</div>
-							<div class="col-md-12 col-xs-12">
-							  <label for="passSharedRide">Shared ride </label>
-							  <select class="form-control" id="passSharedRide" name="passSharedRide" placeholder="Please choose preferred ride" required>
-								<option value="Yes">Yes</option>
-								<option value="No">No</option>
-							  </select>
-							</div>
-						  </div>
-						  <button type="submit" class="btn btn-primary text-center">Submit</button>
-						</form>
-					  </div>
-					</div>
-				  </div>
-				</div>
-			  </div>
-			</div>
-
-			<!-- Driver form -->
-			<div class="modal fade" id="driver-form">
-			  <div class="modal-dialog shadow-lg p-3 mb-5 bg-white rounded">
-				<div class="modal-content sub-bg">
-				  <div class="modal-header subs-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				  </div>
-				  <div class="modal-body">
-					<div class="text-center">
-					  <img class="img-fluid" src="../static/image_driver.jpg" alt="">
-					</div>
-					<div class="heading-text text-center ">
-						<p class="shadow p-3 mb-5" style="color: black; font-size: 20px; font-family: Courier New"><strong>"Faster Is Fatal, Slower Is Safe"</strong></p>
-					</div>
-					<div class="row">
-					  <div class="col-md-12">
-						<form id="dri-form" action="/index" method="POST">
-						  <div class="form-group row">
-							<div class="col-md-12 col-xs-12">
-							  <label for="driFullName" class="">Full Name </label>
-							  <input type="text" class="form-control" id="driFullName" name="driFullName" placeholder="Please enter full name" required>
-							</div>
-							<div class="col-md-12 col-xs-12">
-							  <label for="driCarType">Car Type </label>
-							  <select class="form-control" id="driCarType" name="driCarType" placeholder="Please choose car type" required>
-								<option value="Standard">Standard</option>
-								<option value="Premium">Premium</option>
-							  </select>
-							</div>
-							<div class="col-md-12 col-xs-12">
-							  <label for="driSeatCapacity">Seat Capacity </label>
-							  <select class="form-control" id="driSeatCapacity" name="driSeatCapacity" placeholder="Please choose seat capacity" required>
-								<option value="4">4</option>
-								<option value="6">6</option>
-							  </select>
-							</div>
-							<div class="col-md-12 col-xs-12">
-							  <label for="driSharedRide">Shared ride </label>
-							  <select class="form-control" id="driSharedRide" name="driSharedRide" placeholder="Please choose ride" required>
-								<option value="Yes">Yes</option>
-								<option value="No">No</option>
-							  </select>
-							</div>
-							<div class="col-md-12 col-xs-12">
-							  <label for="driLocation">Current Location </label>
-							  <input type="text" class="form-control" id="driLocation" name="driLocation" placeholder="Please enter current location" required>
-							</div>
-						  </div>
-						  <button type="submit" class="btn btn-primary text-center">Submit</button>
-						</form>
-					  </div>
-					</div>
-				  </div>
-				</div>
-			  </div>
-			</div>
-
-            <!-- Script and api script -->
-			<script src="https://code.jquery.com/jquery.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
-			<script src="{{ url_for('static', filename='script.js') }}"></script>
-
-			<script type = "text/javascript">
-				data = plotting({{route | tojson}})
-			</script>
         </div>
+        <!--end full-screen-->
 
-    </body>
+    </section>
+    <!--end ts-hero-->
+
+</div>
+<!--end page-->
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="{{ url_for('static', filename='jquery-3.3.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='owl.carousel.min.js') }}"></script>
+<script src="{{ url_for('static', filename='sly.min.js') }}"></script>
+<script src="{{ url_for('static', filename='dragscroll.js') }}"></script>
+<script src="{{ url_for('static', filename='jquery.scrollbar.min.js') }}"></script>
+<script src="{{ url_for('static', filename='leaflet.js') }}"></script>
+<script src="{{ url_for('static', filename='leaflet.markercluster.js') }}"></script>
+<script src="{{ url_for('static', filename='custom.js') }}"></script>
+<script src="{{ url_for('static', filename='map-leaflet.js') }}"></script>
+
+</body>
 </html>
