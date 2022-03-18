@@ -72,8 +72,6 @@ def index():
             passArray.append(sharedMatchResultList[i].get('passenger1Name'))
             passArray.append(sharedMatchResultList[i].get('passenger2Name'))
 
-        print(node)
-
         return render_template('index.html', route=route, passArray=passArray)
 
 
