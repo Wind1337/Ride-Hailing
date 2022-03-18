@@ -32,14 +32,21 @@
                 </div>
             </div>
 
-            <div class="row mt-2">
-                <div class="col">
-                    <input class="form-control" id="search" type="text" placeholder="Search..."/>
-                </div>
-            </div>
+			<div class="row mt-2">
+				<div class="col" style="padding-right:0px; padding-left:0px;">
+					<form action="/index" method="POST" id="optionForm">
+						<select name="selectedPass" class="form-control" onchange="submitForm();">
+							<option value="" disabled selected>Search Passenger's Name...</option>
+							{% for pass in passArray %}
+								<option value="{{pass}}">{{pass}}</option>
+							{% endfor %}
+						</select>
+					</form>
+				</div>
+			</div>
 
             <div class="row">
-                <div class="col">
+                <div class="col" style="padding-right:0px; padding-left:0px;">
                     <div id='mapdiv' style='height:500px; margin-top: 20px; border-radius: 2%;'>
 						<a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
 					</div>

@@ -6,6 +6,7 @@ import math
 nodeJson = open('data/nodes.json')
 nodeRaw = json.load(nodeJson)
 
+
 def importNodes(nodeRaw):
     nodeDict = {}
     for i in nodeRaw["nodes"]:
@@ -15,6 +16,7 @@ def importNodes(nodeRaw):
         nodeDict[i["nodeID"]] = cords
     # print(nodeDict.get(236676523))
     return nodeDict
+
 
 def approxDistance(fromNodeID, toNodeID):
     global nodeDict

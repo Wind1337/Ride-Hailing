@@ -1,7 +1,7 @@
 from flask import *
 from Passenger import *
 from Driver import *
-import json
+from Matching import *
 
 app = Flask(__name__)
 
@@ -17,6 +17,9 @@ app.config.update(dict(
 @app.route('/index', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
+        selectedPass = request.form.get("selectedPass")
+        print(selectedPass)
+
         passFullName = request.form.get('passFullName')
         # if passenger form is fill in
         if passFullName is not None:
@@ -27,9 +30,10 @@ def index():
             passSharedRide = request.form.get('passSharedRide')
             new_passenger(passFullName, passPickUp, passDropOff, passCarType, passSeatCapacity, passSharedRide)
             print("ADDED NEW PASSENGER")
+
+        driFullName = request.form.get('driFullName')
         # if driver form is fill in
-        else:
-            driFullName = request.form.get('driFullName')
+        if driFullName is not None:
             driCarType = request.form.get('driCarType')
             driSeatCapacity = request.form.get('driSeatCapacity')
             driSharedRide = request.form.get('driSharedRide')
@@ -39,14 +43,7 @@ def index():
 
         return redirect(url_for('index'))
     else:
-        '''with open('output/match.json') as file:
-            data = json.load(file)
-
-        for element in data['matchResult']:
-
-            print(element["passengerName"], element["passengerPickup"], element["passengerDropoff"], element["driverName"], element["driverLocation"])
-        '''
-
+        passArray = []
         node = []
 
         with open("output/route.json") as file:
@@ -68,7 +65,16 @@ def index():
                         route[index][0] = element['latitude']
                         route[index][1] = element['longitude']
 
-        return render_template('index.html', route=route)
+        for i in range(len(matchResultList)):
+            passArray.append(matchResultList[i].get('passengerName'))
+
+        for i in range(len(sharedMatchResultList)):
+            passArray.append(sharedMatchResultList[i].get('passenger1Name'))
+            passArray.append(sharedMatchResultList[i].get('passenger2Name'))
+
+        print(node)
+
+        return render_template('index.html', route=route, passArray=passArray)
 
 
 if __name__ == '__main__':
