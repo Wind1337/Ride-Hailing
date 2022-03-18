@@ -16,7 +16,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
 
-    <title>MyHouse - Advanced Real Estate HTML Template by ThemeStarz</title>
+    <title>Lift Ride Hailing</title>
 
 </head>
 
@@ -32,7 +32,7 @@
     <header id="ts-header" class="fixed-top">
 	
 		<!--Main level link-->
-        <h1 style="font-family: Courier New; font-weight: bold; text-align: center; margin-top: 15px; margin-bottom: 15px; font-size: 35px; background-color: inherit;">Lift Ride Hailing
+        <h1 style="font-family: Courier New; font-weight: bold; text-align: center; margin-top: 15px; margin-bottom: 15px; font-size: 35px; background-color: inherit;"> Ride
 			<img src="../static/ride_hailing_icon.png" style="max-width:3%;" alt="">
 		</h1>
 
@@ -103,7 +103,7 @@
 
                             <!--Single Rides-->
                             <select class="custom-select my-2" id="single" name="selectedPass">
-                                <option value="" disabled selected>Single Rides</option>
+                                <option value="" disabled selected>JustRide</option>
                                 {% for single in singlePassArray %}
                                     <option value="{{single}}">{{single}}</option>
                                 {% endfor %}
@@ -111,7 +111,7 @@
 
                             <!--Shared Rides-->
                             <select class="custom-select my-2" id="shared" name="selectedPass">
-                                <option value="" disabled selected>Shared Rides</option>
+                                <option value="" disabled selected>Shared Ride</option>
                                 {% for shared in sharedPassArray %}
                                     <option value="{{shared}}">{{shared}}</option>
                                 {% endfor %}
@@ -177,6 +177,10 @@
 <script src="{{ url_for('static', filename='leaflet.markercluster.js') }}"></script>
 <script src="{{ url_for('static', filename='custom.js') }}"></script>
 <script src="{{ url_for('static', filename='map-leaflet.js') }}"></script>
+
+<script type="text/javascript">
+    routing = plotting({{route|tojson}});
+</script>
 
 </body>
 </html>

@@ -22,8 +22,7 @@ def index():
 
         return redirect(url_for('index'))
     else:
-        singlePassArray = []
-        sharedPassArray = []
+        detail = [[0 for column in range(3)] for row in range(2)]
         node = []
 
         with open("output/route.json") as file:
@@ -32,7 +31,7 @@ def index():
             for element in data['path']:
                 node.append(element)
 
-        route = [[0 for row in range(2)] for column in range(len(node))]
+        route = [[0 for column in range(2)] for row in range(len(node))]
 
         with open("data/nodes.json") as file:
             data = json.load(file)
@@ -45,15 +44,16 @@ def index():
                         route[index][0] = element['latitude']
                         route[index][1] = element['longitude']
 
-        for i in range(len(matchResultList)):
-            singlePassArray.append(matchResultList[i].get('passengerName'))
+        for index in range(len(matchResultList)):
+            detail[index][0] = (matchResultList[index].get('passengerName'))
+            detail[index][1] = (matchResultList[index].get('driverName'))
 
-        for i in range(len(sharedMatchResultList)):
-            sharedPassArray.append(sharedMatchResultList[i].get('passenger1Name'))
-            sharedPassArray.append(sharedMatchResultList[i].get('passenger2Name'))
+        '''for index in range(len(sharedMatchResultList)):
+            detail[index][0] = (matchResultList[index].get('passenger1Name'))
+            detail[index][1] = (matchResultList[index].get('passenger2Name'))
+            detail[index][2] = (matchResultList[index].get('driverName'))'''
 
-        return render_template('index.html', route=route, singlePassArray=singlePassArray,
-                               sharedPassArray=sharedPassArray)
+        return render_template('index.html', route=route, detail=detail)
 
 
 if __name__ == '__main__':
