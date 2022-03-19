@@ -1,4 +1,4 @@
-function routing(node)
+function routing(node, trip)
 {
     var map = L.map('ts-map-hero').setView([node[0][0], node[0][1]], 15);
     L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=b74gkn1VskvsZy9K7x1q',
