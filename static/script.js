@@ -37,3 +37,9 @@ console.log("test");
 var passPickupMarker = L.marker([1.3790334, 103.7642649]).addTo(map);
 var passDropOffMarker = L.marker([1.3790293, 103.7640756]).addTo(map);
 var driLocation = L.marker([1.3842443, 103.7598278]).addTo(map); */
+
+
+function submitForm()
+{
+  document.getElementById('optionForm').submit();
+}

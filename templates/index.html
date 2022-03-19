@@ -59,30 +59,34 @@
 
                         <!--Collapse button-->
                         <a href=".ts-form-collapse" data-toggle="collapse" class="ts-center__vertical justify-content-between">
-                            <h5 class="mb-0">Trip Details</h5>
+                            <u class="mb-0" style="font-size: 18px; font-weight: bold;">Trip Details</u>
                         </a>
 
                         <!--Form-->
                         <div class="ts-form-collapse ts-xs-hide-collapse collapse show">
 
-							<!--Keyword-->
+                            <!--Keyword-->
                             <div class="form-group my-2 pt-2">
-								<h6 class="mb-0">Passenger's Name:<span style="font-style: italic; font-weight: bold"> {{detail[index][0]}}</span></h6>
+								<h6 class="mb-0" style="font-size: 16px; font-weight: bold">Passenger's Name(s)</h6>
+								<h6 style="font-style: italic;">{{detail[index][0]}}</h6>
                             </div>
 
 							<!--Keyword-->
                             <div class="form-group my-2 pt-2">
-								<h6 class="mb-0">Driver's Name: <span style="font-style: italic; font-weight: bold">{{detail[index][1]}}</span></h6>
+								<h6 class="mb-0" style="font-size: 16px; font-weight: bold">Driver's Name</h6>
+                                <h6 style="font-style: italic;">{{detail[index][1]}}</h6>
                             </div>
 
                             <!--Keyword-->
                             <div class="form-group my-2 pt-2">
-								<h6 class="mb-0">Pick-Up Location: <span style="font-style: italic; font-weight: bold">{{detail[index][2]}} </span></h6>
+								<h6 class="mb-0" style="font-size: 16px; font-weight: bold">Pick-Up Location</h6>
+                                <h6 style="font-style: italic;">{{detail[index][2]}} </h6>
                             </div>
 
 							<!--Keyword-->
                             <div class="form-group my-2 pt-2">
-								<h6 class="mb-0">Drop-Off Location: <span style="font-style: italic; font-weight: bold">{{detail[index][3]}} </span></h6>
+								<h6 class="mb-0" style="font-size: 16px; font-weight: bold">Drop-Off Location</h6>
+                                <h6 style="font-style: italic;">{{detail[index][3]}} </h6>
                             </div>
 
                         </div>
@@ -92,11 +96,11 @@
                     <!--end ts-form-->
 					
 					<!--Form-->
-                    <form class="ts-form" style="margin-top: 5px;" action="/index" method="POST" id="optionForm">
+                    <form class="ts-form" style="margin-top: 5px;" action="/index" method="POST" id="optionForm" onchange="submitForm();">
 
                         <!--Collapse button-->
-                        <a href=".ts-form-collapse2" data-toggle="collapse" class="ts-center__vertical justify-content-between">
-                            <h5 class="mb-0">Search Passenger</h5>
+                        <a href=".ts-form-collapse" data-toggle="collapse" class="ts-center__vertical justify-content-between">
+                            <u class="mb-0" style="font-size: 18px; font-weight: bold;">Search Passenger</u>
                         </a>
 
                         <!--Form-->
@@ -104,7 +108,7 @@
 
                             <!--Single Rides-->
                             <select class="custom-select my-2" id="single" name="selectedPass">
-                                <option value="" disabled selected>JustRide</option>
+                                <option value="" disabled selected>Single Ride</option>
                                 {% for index in range(2) %}
                                     <option value="{{detail[index][0]}}">{{detail[index][0]}}</option>
                                 {% endfor %}
@@ -112,17 +116,12 @@
 
                             <!--Shared Rides-->
                             <select class="custom-select my-2" id="shared" name="selectedPass">
-                                <option value="" disabled selected>RideShare</option>
+                                <option value="" disabled selected>Shared Ride</option>
                                 {% for shared in sharedPassArray %}
                                 for index in range(len(array))
                                     <option value="{{shared}}">{{shared}}</option>
                                 {% endfor %}
                             </select>
-
-                            <!--Submit button-->
-                            <div class="form-group mt-2 mb-3">
-                                <button type="submit" class="btn btn-primary w-100" id="search-btn">Search</button>
-                            </div>
 
                         </div>
                         <!--end ts-form-collapse-->
