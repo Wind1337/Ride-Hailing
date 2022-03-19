@@ -67,23 +67,22 @@
 
 							<!--Keyword-->
                             <div class="form-group my-2 pt-2">
-								<h6 class="mb-0">Passenger's Name: <span style="font-style: italic; font-weight: bold">Xiao Ming </span></h6>
-
+								<h6 class="mb-0">Passenger's Name:<span style="font-style: italic; font-weight: bold"> {{detail[index][0]}}</span></h6>
                             </div>
 
 							<!--Keyword-->
                             <div class="form-group my-2 pt-2">
-								<h6 class="mb-0">Driver's Name: <span style="font-style: italic; font-weight: bold">Tan Ah Kow </span></h6>
+								<h6 class="mb-0">Driver's Name: <span style="font-style: italic; font-weight: bold">{{detail[index][1]}}</span></h6>
                             </div>
 
                             <!--Keyword-->
                             <div class="form-group my-2 pt-2">
-								<h6 class="mb-0">Pick-Up Location: <span style="font-style: italic; font-weight: bold">Singapore </span></h6>
+								<h6 class="mb-0">Pick-Up Location: <span style="font-style: italic; font-weight: bold">{{detail[index][2]}} </span></h6>
                             </div>
 
 							<!--Keyword-->
                             <div class="form-group my-2 pt-2">
-								<h6 class="mb-0">Drop-Off Location: <span style="font-style: italic; font-weight: bold">Singapore </span></h6>
+								<h6 class="mb-0">Drop-Off Location: <span style="font-style: italic; font-weight: bold">{{detail[index][3]}} </span></h6>
                             </div>
 
                         </div>
@@ -106,15 +105,16 @@
                             <!--Single Rides-->
                             <select class="custom-select my-2" id="single" name="selectedPass">
                                 <option value="" disabled selected>JustRide</option>
-                                {% for single in singlePassArray %}
-                                    <option value="{{single}}">{{single}}</option>
+                                {% for index in range(2) %}
+                                    <option value="{{detail[index][0]}}">{{detail[index][0]}}</option>
                                 {% endfor %}
                             </select>
 
                             <!--Shared Rides-->
                             <select class="custom-select my-2" id="shared" name="selectedPass">
-                                <option value="" disabled selected>Shared Ride</option>
+                                <option value="" disabled selected>RideShare</option>
                                 {% for shared in sharedPassArray %}
+                                for index in range(len(array))
                                     <option value="{{shared}}">{{shared}}</option>
                                 {% endfor %}
                             </select>
@@ -181,7 +181,7 @@
 <script src="{{ url_for('static', filename='map-leaflet.js') }}"></script>
 
 <script type="text/javascript">
-    routing = plotting({{route|tojson}});
+    plotting = routing({{plot|tojson}});
 </script>
 
 </body>
