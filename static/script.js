@@ -2,7 +2,7 @@ function plotting(route)
 {
     console.log(route[0][0]);
     console.log(route[0][1]);
-    var map = L.map('ts-map-hero').setView([route[0][0], route[0][1]], 17);
+    var map = L.map('ts-map-hero').setView([route[0][0], route[0][1]], 15);
     L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=b74gkn1VskvsZy9K7x1q',
     {
         tileSize: 512,
