@@ -3,11 +3,6 @@ import math
 
 import PriorityQueue
 
-nodeJson = open('data/nodes.json')
-edgeJson = open('data/edges.json')
-nodeDict = json.load(nodeJson)
-edgeDict = json.load(edgeJson)
-
 
 class WeightedGraph():
     def __init__(self):
@@ -20,17 +15,25 @@ class WeightedGraph():
         return self.edges.get(fromNodeID).get(toNodeID)
 
 
-graph = WeightedGraph()
-for i in nodeDict["nodes"]:
-    nodeedge = {}
-    for j in edgeDict["edges"]:
-        if i['nodeID'] == j['fromNode']:
-            nodeedge.update({j['toNode']: j['cost']})
+def initGraph():
+    nodeJson = open('data/nodes.json')
+    edgeJson = open('data/edges.json')
+    nodeDict = json.load(nodeJson)
+    edgeDict = json.load(edgeJson)
+    graph = WeightedGraph()
+    for i in nodeDict["nodes"]:
+        nodeedge = {}
+        for j in edgeDict["edges"]:
+            if i['nodeID'] == j['fromNode']:
+                nodeedge.update({j['toNode']: j['cost']})
 
-    graph.edges.update({i['nodeID']: nodeedge})
+        graph.edges.update({i['nodeID']: nodeedge})
+    return graph
 
 
 def Hscore(fromNodeID, toNodeID):
+    nodeJson = open('data/nodes.json')
+    nodeDict = json.load(nodeJson)
     fromcord = []
     tocord = []
     for i in nodeDict["nodes"]:
@@ -49,11 +52,7 @@ def Hscore(fromNodeID, toNodeID):
     return dis
 
 
-print(Hscore(5184383632, 4592745095))
-print(graph.cost(5184383632, 4592745095))
-
-
-def routing(graph: WeightedGraph, startID, endID):
+def findRoute(graph: WeightedGraph, startID, endID):
     pqueue = PriorityQueue.PriorityQueue()
     pqueue.enqueue(startID, 0)
     routeTable = {}
@@ -88,15 +87,20 @@ def reconstruct_path(routeTable, startID, endID):
     return path
 
 
-# print(routing(graph,4700694098,9142407272))
-resultRouteTable = routing(graph, 6542773042, 4600448914)
-if resultRouteTable:
-    resultPath = reconstruct_path(resultRouteTable, 6542773042, 4600448914)
-    pathDict = {"path": resultPath}
-    # print(resultPath)
-else:
-    pathDict = {"path": ["Path Not Found"]}
+def route(startNodeID, endNodeID):
+    graph = initGraph()
+    resultRouteTable = findRoute(graph, startNodeID, endNodeID)
+    if resultRouteTable:
+        resultPath = reconstruct_path(resultRouteTable, startNodeID, endNodeID)
+        # pathDict = {"path": resultPath}
+        # print(resultPath)
+        return resultPath
+    else:
+        return ["Path Not Found"]
 
-json_object = json.dumps(pathDict, indent=4)
-with open("./output/route.json", "w") as outfile:
-    outfile.write(json_object)
+    # json_object = json.dumps(pathDict, indent=4)
+    # with open("./output/route.json", "w") as outfile:
+    # outfile.write(json_object)
+
+
+route(6542773042, 4600448914)
