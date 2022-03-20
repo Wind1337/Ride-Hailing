@@ -141,7 +141,7 @@ for i in range(len(matchResult)):
     matchAttrDict["driverCarType"] = matchResult[i][1].carType
     matchAttrDict["driverSeatCapacity"] = matchResult[i][1].seatCapacity
     matchResultList.append(matchAttrDict)
-    print("Matched:", matchResult[i][0].fullname, "and", matchResult[i][1].fullname)
+    '''print("Matched:", matchResult[i][0].fullname, "and", matchResult[i][1].fullname)'''
 
 sharedMatchResultList = []
 sharedMatchResultDict = {"sharedMatchResult": sharedMatchResultList}
@@ -171,8 +171,8 @@ for i in range(len(sharedMatchResult)):
     sharedMatchAttrDict["driverCarType"] = sharedMatchResult[i][2].carType
     sharedMatchAttrDict["driverSeatCapacity"] = sharedMatchResult[i][2].seatCapacity
     sharedMatchResultList.append(sharedMatchAttrDict)
-    print("Shared Matched Passengers:", sharedMatchResult[i][0].fullname, "and", sharedMatchResult[i][1].fullname,
-          "and driver:", sharedMatchResult[i][2].fullname)
+    '''print("Shared Matched Passengers:", sharedMatchResult[i][0].fullname, "and", sharedMatchResult[i][1].fullname,
+          "and driver:", sharedMatchResult[i][2].fullname)'''
 
 json_object = json.dumps(matchResultDict, indent=4)
 with open("./output/match.json", "w") as outfile:
