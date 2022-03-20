@@ -18,8 +18,7 @@ def importNodes(nodeRaw):
     return nodeDict
 
 
-def approxDistance(fromNodeID, toNodeID):
-    global nodeDict
+def approxDistance(fromNodeID, toNodeID, nodeDict):
     fromCord = nodeDict.get(fromNodeID)
     toCord = nodeDict.get(toNodeID)
     latDis = math.radians(toCord[0] - fromCord[0])
@@ -32,6 +31,7 @@ def approxDistance(fromNodeID, toNodeID):
 
 
 def match(DriverList, PassengerList):
+    nodeDict = importNodes(nodeRaw)
     matchList = []
     sharedMatchList = []
     currentPassenger = PassengerList.getHead()
@@ -41,13 +41,13 @@ def match(DriverList, PassengerList):
         reqCarType = currentPassenger.reqCarType
         currentDriver = DriverList.getHead()
         if currentPassenger.reqSharedRide == True:
-            sharedMatch(currentPassenger, PassengerList, DriverList, sharedMatchList)
+            sharedMatch(currentPassenger, PassengerList, DriverList, sharedMatchList, nodeDict)
         else:
             while currentDriver is not None:
                 driverLocation = currentDriver.location
                 driverSeatCapacity = currentDriver.seatCapacity
                 driverCarType = currentDriver.carType
-                distance = approxDistance(passengerPickup, driverLocation)
+                distance = approxDistance(passengerPickup, driverLocation, nodeDict)
                 if distance < 1000 and reqSeatCapacity <= driverSeatCapacity and reqCarType == driverCarType:
                     matchList.append([currentPassenger, currentDriver])
                     DriverList.delete(currentDriver.driverID)
@@ -59,7 +59,7 @@ def match(DriverList, PassengerList):
     return matchList, sharedMatchList
 
 
-def sharedMatch(currentPassenger, PassengerList, DriverList, sharedMatchList):
+def sharedMatch(currentPassenger, PassengerList, DriverList, sharedMatchList, nodeDict):
     currentPassenger1 = currentPassenger
     currentDriver = DriverList.getHead()
     currentPassenger = currentPassenger.next
@@ -68,8 +68,8 @@ def sharedMatch(currentPassenger, PassengerList, DriverList, sharedMatchList):
             currentPassenger = currentPassenger.next
         else:
             currentPassenger2 = currentPassenger
-            pickupDistanceDelta = approxDistance(currentPassenger1.pickup, currentPassenger2.pickup)
-            dropoffDistanceDelta = approxDistance(currentPassenger1.dropoff, currentPassenger2.dropoff)
+            pickupDistanceDelta = approxDistance(currentPassenger1.pickup, currentPassenger2.pickup, nodeDict)
+            dropoffDistanceDelta = approxDistance(currentPassenger1.dropoff, currentPassenger2.dropoff, nodeDict)
             if pickupDistanceDelta > 1000 and dropoffDistanceDelta > 1000:
                 currentPassenger = currentPassenger.next
             else:
@@ -77,8 +77,8 @@ def sharedMatch(currentPassenger, PassengerList, DriverList, sharedMatchList):
                 passengerPickup2 = currentPassenger2.pickup
                 while currentDriver is not None:
                     driverLocation = currentDriver.location
-                    distance1 = approxDistance(passengerPickup1, driverLocation)
-                    distance2 = approxDistance(passengerPickup2, driverLocation)
+                    distance1 = approxDistance(passengerPickup1, driverLocation, nodeDict)
+                    distance2 = approxDistance(passengerPickup2, driverLocation, nodeDict)
                     if (distance1 < 1000):
                         sharedMatchList.append([currentPassenger1, currentPassenger2, currentDriver])
                         DriverList.delete(currentDriver.driverID)
@@ -141,7 +141,7 @@ for i in range(len(matchResult)):
     matchAttrDict["driverCarType"] = matchResult[i][1].carType
     matchAttrDict["driverSeatCapacity"] = matchResult[i][1].seatCapacity
     matchResultList.append(matchAttrDict)
-    '''print("Matched:", matchResult[i][0].fullname, "and", matchResult[i][1].fullname)'''
+    print("Matched:", matchResult[i][0].fullname, "and", matchResult[i][1].fullname)
 
 sharedMatchResultList = []
 sharedMatchResultDict = {"sharedMatchResult": sharedMatchResultList}
@@ -171,8 +171,8 @@ for i in range(len(sharedMatchResult)):
     sharedMatchAttrDict["driverCarType"] = sharedMatchResult[i][2].carType
     sharedMatchAttrDict["driverSeatCapacity"] = sharedMatchResult[i][2].seatCapacity
     sharedMatchResultList.append(sharedMatchAttrDict)
-    '''print("Shared Matched Passengers:", sharedMatchResult[i][0].fullname, "and", sharedMatchResult[i][1].fullname,
-          "and driver:", sharedMatchResult[i][2].fullname)'''
+    print("Shared Matched Passengers:", sharedMatchResult[i][0].fullname, "and", sharedMatchResult[i][1].fullname,
+          "and driver:", sharedMatchResult[i][2].fullname)
 
 json_object = json.dumps(matchResultDict, indent=4)
 with open("./output/match.json", "w") as outfile:
