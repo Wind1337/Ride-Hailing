@@ -1,0 +1,53 @@
+{
+    "passengers": [
+        {
+            "passengerName": "Chen Guo Qiang",
+            "passengerPickup": 4606017067,
+            "passengerDropoff": 4606017325,
+            "passengerCarType": "Standard",
+            "passengerSeatCapacity": 4,
+            "passengerShared": "False"
+        },
+        {
+            "passengerName": "Cheong Jia Xin",
+            "passengerPickup": 4740049515,
+            "passengerDropoff": 5202613112,
+            "passengerCarType": "Standard",
+            "passengerSeatCapacity": 4,
+            "passengerShared": "False"
+        },
+        {
+            "passengerName": "Jiang Yong Rui",
+            "passengerPickup": 3953146628,
+            "passengerDropoff": 3938835930,
+            "passengerCarType": "Standard",
+            "passengerSeatCapacity": 4,
+            "passengerShared": "False"
+        },
+        {
+            "passengerName": "Lim Jun Ming",
+            "passengerPickup": 4653005132,
+            "passengerDropoff": 5161828500,
+            "passengerCarType": "Standard",
+            "passengerSeatCapacity": 4,
+            "passengerShared": "False"
+        },
+        {
+            "passengerName": "Pun Hui Shan",
+            "passengerPickup": 4600448914,
+            "passengerDropoff": 4600518449,
+            "passengerCarType": "Standard",
+            "passengerSeatCapacity": 2,
+            "passengerShared": "True"
+        },
+        {
+            "passengerName": "Liu Kai Wen",
+            "passengerPickup": 4600448910,
+            "passengerDropoff": 4700694096,
+            "passengerCarType": "Standard",
+            "passengerSeatCapacity": 2,
+            "passengerShared": "True"
+        }
+
+    ]
+}

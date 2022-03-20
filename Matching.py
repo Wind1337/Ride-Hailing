@@ -96,11 +96,26 @@ def sharedMatch(currentPassenger, PassengerList, DriverList, sharedMatchList, no
                 currentPassenger = currentPassenger.next
 
 
-nodeDict = importNodes(nodeRaw)
-
 testDriverLinkedList = Driver.DriverLinkedList()
 testPassengerLinkedList = Passenger.PassengerLinkedList()
 
+driverJson = open('data/drivers.json')
+passengerJson = open('data/passengers.json')
+driverRaw = json.load(driverJson)
+passengerRaw = json.load(passengerJson)
+
+for i in driverRaw["drivers"]:
+    driver = Driver.DriverNode(i["driverName"], i["driverCarType"], i["driverSeatCapacity"], i["driverLocation"])
+    testDriverLinkedList.insertAtTail(driver)
+
+for i in passengerRaw["passengers"]:
+    if i["passengerShared"] == "True":
+        shared = True
+    else:
+        shared = False
+    passenger = Passenger.PassengerNode(i["passengerName"], i["passengerPickup"], i["passengerDropoff"], i["passengerCarType"], i["passengerSeatCapacity"], shared)
+    testPassengerLinkedList.insertAtTail(passenger)
+'''
 testDriver = Driver.DriverNode("Tan Ah Kow", "Standard", 4, 614066679)
 testPassenger = Passenger.PassengerNode("Xiao Ming", 367532495, 7103759997, "Standard", 4, False)
 testDriverLinkedList.insertAtTail(testDriver)
@@ -116,8 +131,9 @@ testPassengerLinkedList.insertAtTail(testPassenger)
 testPassenger = Passenger.PassengerNode("Shared 2", 243702776, 5202652823, "Standard", 2, True)
 testPassengerLinkedList.insertAtTail(testPassenger)
 testDriver = Driver.DriverNode("Shared Driver 1", "Standard", 6, 243702776)
-testDriverLinkedList.insertAtTail(testDriver)
+testDriverLinkedList.insertAtTail(testDriver)'''
 
+nodeDict = importNodes(nodeRaw)
 matchResult, sharedMatchResult = match(testDriverLinkedList, testPassengerLinkedList)
 matchResultList = []
 matchResultDict = {"matchResult": matchResultList}
