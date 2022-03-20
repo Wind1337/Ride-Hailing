@@ -102,5 +102,5 @@ def route(startNodeID, endNodeID):
     # with open("./output/route.json", "w") as outfile:
     # outfile.write(json_object)
 
-
+# !!! THIS LINE IS ONLY TO TEST IF ROUTING WORKS !!!
 route(6542773042, 4600448914)
