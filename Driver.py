@@ -64,11 +64,3 @@ class DriverLinkedList:
                 del temp
                 return
         print("Not Found")
-
-
-DLL = DriverLinkedList()
-
-
-def new_driver(driFullName, driCarType, driSeatCapacity, driSharedRide, driLocation):
-    newNode = DriverNode(driFullName, driCarType, driSeatCapacity, driSharedRide, driLocation)
-    # DLL.insertAtHead(newNode)

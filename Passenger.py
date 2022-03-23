@@ -66,11 +66,3 @@ class PassengerLinkedList:
                 del temp
                 return
         print("Not Found")
-
-
-PLL = PassengerLinkedList()
-
-
-def new_passenger(passFullName, passPickUp, passDropOff, passCarType, passSeatCapacity, passSharedRide):
-    newNode = PassengerNode(passFullName, passPickUp, passDropOff, passCarType, passSeatCapacity, passSharedRide)
-    # PLL.insertAtHead(newNode)

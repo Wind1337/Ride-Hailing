@@ -1,4 +1,4 @@
-function routing(node, trip)
+/*function routing(node, trip)
 {
     var map = L.map('ts-map-hero').setView([node[0][0], node[0][1]], 15);
     L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=b74gkn1VskvsZy9K7x1q',
@@ -21,9 +21,9 @@ function routing(node, trip)
 
     passPickupMarker.bindPopup("Pick Up Point");
     passDropOffMarker.bindPopup("Drop Off Point")
-}
+}*/
 
-/* var map = L.map('ts-map-hero').setView([1.3790334, 103.7642649], 17);
+var map = L.map('ts-map-hero').setView([1.3790334, 103.7642649], 17);
 L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=b74gkn1VskvsZy9K7x1q',{
 tileSize: 512,
 zoomOffset: -1,
@@ -36,7 +36,7 @@ console.log("test");
 
 var passPickupMarker = L.marker([1.3790334, 103.7642649]).addTo(map);
 var passDropOffMarker = L.marker([1.3790293, 103.7640756]).addTo(map);
-var driLocation = L.marker([1.3842443, 103.7598278]).addTo(map); */
+var driLocation = L.marker([1.3842443, 103.7598278]).addTo(map);
 
 
 function submitForm()

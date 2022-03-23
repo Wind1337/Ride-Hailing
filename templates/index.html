@@ -65,25 +65,33 @@
                             <!--Keyword-->
                             <div class="form-group my-2 pt-2">
 								<h6 class="mb-0" style="font-size: 16px; font-weight: bold">Passenger's Name(s)</h6>
-								<h6 style="font-style: italic;">{{detail[index][0]}}</h6>
+                                {% for index in range(count) %}
+                                    <h6 style="font-style: italic;">{{detail[index][0]}}</h6>
+                                {% endfor %}
                             </div>
 
 							<!--Keyword-->
                             <div class="form-group my-2 pt-2">
 								<h6 class="mb-0" style="font-size: 16px; font-weight: bold">Driver's Name</h6>
-                                <h6 style="font-style: italic;">{{detail[index][1]}}</h6>
+                                {% for index in range(count) %}
+                                    <h6 style="font-style: italic;">{{detail[index][1]}}</h6>
+                                {% endfor %}
                             </div>
 
                             <!--Keyword-->
                             <div class="form-group my-2 pt-2">
 								<h6 class="mb-0" style="font-size: 16px; font-weight: bold">Pick-Up Location(s)</h6>
-                                <h6 style="font-style: italic;">{{detail[index][2]}} </h6>
+                                {% for index in range(count) %}
+                                    <h6 style="font-style: italic;">{{detail[index][2]}}</h6>
+                                {% endfor %}
                             </div>
 
 							<!--Keyword-->
                             <div class="form-group my-2 pt-2">
 								<h6 class="mb-0" style="font-size: 16px; font-weight: bold">Drop-Off Location(s)</h6>
-                                <h6 style="font-style: italic;">{{detail[index][3]}} </h6>
+                                {% for index in range(count) %}
+                                    <h6 style="font-style: italic;">{{detail[index][3]}}</h6>
+                                {% endfor %}
                             </div>
 
                         </div>
@@ -97,7 +105,7 @@
 
                         <!--Collapse button-->
                         <a href=".ts-form-collapse2" data-toggle="collapse" class="ts-center__vertical justify-content-between">
-                            <u class="mb-0" style="font-size: 18px; font-weight: bold;">Passenger List</u>
+                            <u class="mb-0" style="font-size: 18px; font-weight: bold;">Passengers' List</u>
                         </a>
 
                         <!--Form-->
@@ -105,17 +113,17 @@
 
                             <!--Single Rides-->
                             <select class="custom-select my-2" id="single" name="selectedPass">
-                                <option value="" disabled selected>JustRide</option>
-                                {% for index in range(just_ride) %}
-                                    <option value="{{detail[index][0]}}">{{detail[index][0]}}</option>
+                                <option value="" disabled selected>Single Rides</option>
+                                {% for singlePass in singleRidePass %}
+                                    <option value="{{singlePass}}">{{singlePass}}</option>
                                 {% endfor %}
                             </select>
 
                             <!--Shared Rides-->
                             <select class="custom-select my-2" id="shared" name="selectedPass">
-                                <option value="" disabled selected>RideShare</option>
-                                {% for index in range(just_ride, total_scenario) %}
-                                    <option value="{{detail[index][0]}}">{{detail[index][0]}}</option>
+                                <option value="" disabled selected>Shared Rides</option>
+                                {% for sharedPass in sharedRidePass %}
+                                    <option value="{{sharedPass}}">{{sharedPass}}</option>
                                 {% endfor %}
                             </select>
 
@@ -174,10 +182,6 @@
 <script src="{{ url_for('static', filename='leaflet.markercluster.js') }}"></script>
 <script src="{{ url_for('static', filename='custom.js') }}"></script>
 <script src="{{ url_for('static', filename='map-leaflet.js') }}"></script>
-
-<script type="text/javascript">
-    plotting = routing({{plot, trip|tojson}});
-</script>
 
 </body>
 </html>
