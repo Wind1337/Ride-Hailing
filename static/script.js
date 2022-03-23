@@ -1,17 +1,22 @@
-function UI(route)
+function UI(route_path, marker)
 {
+    for(var counter = 0; counter < marker.length; counter++)
+    {
+        console.log(marker[counter])
+    }
+
     var map = new maplibregl.Map({
         container: 'ts-map-hero',
         style: 'https://api.maptiler.com/maps/streets/style.json?key=b74gkn1VskvsZy9K7x1q',
-        center: [route[0][0], route[0][1]],
+        center: [route_path[0][0], route_path[0][1]],
         zoom: 17
     });
 
     // start
-    var origin = [route[0][0], route[0][1]];
+    var origin = [route_path[0][0], route_path[0][1]];
 
     // end
-    var destination = [route[route.length - 1][0], route[route.length - 1][1]];
+    var destination = [route_path[route_path.length - 1][0], route_path[route_path.length - 1][1]];
 
     // A simple line from origin to destination.
     var route = {
@@ -20,7 +25,7 @@ function UI(route)
             'type': 'Feature',
             'geometry': {
                 'type': 'LineString',
-                'coordinates': route
+                'coordinates': route_path
             }
         }]
     };
