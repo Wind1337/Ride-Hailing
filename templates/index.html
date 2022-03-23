@@ -16,6 +16,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
 
+    <script src="https://unpkg.com/maplibre-gl@2.1.7/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@2.1.7/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
+
     <title>Lift Ride Hailing</title>
 
 </head>
@@ -127,31 +131,11 @@
 					
                 </div>
                 <!--end ts-form__map-search-->
-				
-				<!-- <div id='mapdiv' style='z-index: -1;'></div> -->
 
-                <div id="ts-map-hero" class="h-100 ts-z-index__1"
-                     data-ts-map-leaflet-provider="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=b74gkn1VskvsZy9K7x1q"
-                     data-ts-map-leaflet-attribution="&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> &copy; <a href='http://cartodb.com/attributions'>CartoDB</a>"
-                     data-ts-map-zoom-position="bottomright"
-                     data-ts-map-scroll-wheel="1"
-                     data-ts-map-zoom="17"
-                     data-ts-map-center-latitude="1.3790334"
-                     data-ts-map-center-longitude="103.7642649"
-                     data-ts-locale="en-US"
-                     data-ts-currency="USD"
-                     data-ts-unit="m<sup>2</sup>"
-                     data-ts-display-additional-info="area_Area;bedrooms_Bedrooms;bathrooms_Bathrooms"
-                >
+                <div id="ts-map-hero" class="h-100 ts-z-index__1">
                 </div>
 
             </div>
-
-            <!-- RESULTS
-            =========================================================================================================-->
-            <!-- <div id="ts-results" class="ts-results__horizontal scrollbar-inner dragscroll">
-                <div class="ts-results-wrapper"></div>
-            </div> -->
 
         </div>
         <!--end full-screen-->
