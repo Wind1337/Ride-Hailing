@@ -25,7 +25,7 @@ def index():
         return render_template('index.html', detail=detail, index=passenger_index, just_ride=just_ride,
                                size=len(detail), route=plot)
     else:
-        plot.append([nodeDict.get(matchResult[0][0].pickup)[0], nodeDict.get(matchResult[0][0].pickup)[1]])
+        plot.append([nodeDict.get(matchResult[0][0].pickup)[1], nodeDict.get(matchResult[0][0].pickup)[0]])
         detail.append([" ", " ", " ", " "])
 
         return render_template('index.html', detail=detail, index=len(detail) - 1, just_ride=just_ride,
@@ -33,17 +33,13 @@ def index():
 
 
 def find_route(passenger_name):
-
     try:
         passenger_1, passenger_2 = passenger_name.split(" & ")
     except ValueError:
         passenger_1 = passenger_name
 
     plot = []
-    passenger_index = edge = 0
-
-    with open("data/edges.json") as file:
-        edges = json.load(file)
+    passenger_index = edges = 0
 
     for index in range(len(matchResult)):
 
@@ -53,17 +49,32 @@ def find_route(passenger_name):
             dropoff_node = matchResult[i][0].dropoff
 
             route_path = route(pickup_node, dropoff_node)
+            break
 
-            with open("data/nodes.json") as file:
-                data = json.load(file)
+    for index in range(len(route_path)):
 
-                for index in range(len(route_path)):
+        for element in nodes_data['nodes']:
 
-                    for element in data['nodes']:
+            if element['nodeID'] == route_path[index]:
 
-                        if element['nodeID'] == route_path[index]:
-                            plot.append([element['latitude'], element['longitude']])
-                            file.close()
+                with open("data/edges.json") as edges_file:
+                    edges_data = json.load(edges_file)
+
+                    for token in edges_data['edges']:
+
+                        try:
+                            if token['fromNode'] == route_path[index] and token['toNode'] == route_path[index + 1]:
+
+                                for data in token['coordinates']:
+                                    plot.append(data)
+
+                                edges += 1
+                        except:
+                            pass
+
+                if edges == 0:
+                    plot.append([element['longitude'], element['latitude']])
+                    edges = 0
 
     return passenger_index, plot
 
@@ -71,6 +82,9 @@ def find_route(passenger_name):
 if __name__ == '__main__':
     just_ride = 4
     detail = []
+
+    with open("data/nodes.json") as nodes_file:
+        nodes_data = json.load(nodes_file)
 
     for index in range(len(matchResult)):
         passenger_name = matchResult[index][0].fullname

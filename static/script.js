@@ -3,15 +3,15 @@ function UI(route)
     var map = new maplibregl.Map({
         container: 'ts-map-hero',
         style: 'https://api.maptiler.com/maps/streets/style.json?key=b74gkn1VskvsZy9K7x1q',
-        center: [103.7597206, 1.3842917],
+        center: [route[0][0], route[0][1]],
         zoom: 17
     });
 
     // start
-    var origin = [103.7597206, 1.3842917];
+    var origin = [route[0][0], route[0][1]];
 
     // end
-    var destination = [103.7598897, 1.3848166];
+    var destination = [route[route.length - 1][0], route[route.length - 1][1]];
 
     // A simple line from origin to destination.
     var route = {
@@ -20,56 +20,7 @@ function UI(route)
             'type': 'Feature',
             'geometry': {
                 'type': 'LineString',
-                'coordinates': [
-                    [
-                        103.7597206,
-                        1.3842917
-                    ],
-                    [
-                        103.7598128,
-                        1.384384
-                    ],
-                    [
-                        103.7598587,
-                        1.3844255
-                    ],
-                    [
-                        103.7598896,
-                        1.3844679
-                    ],
-                    [
-                        103.7599179,
-                        1.3845139
-                    ],
-                    [
-                        103.7599453,
-                        1.384573
-                    ],
-                    [
-                        103.7599498,
-                        1.3845918
-                    ],
-                    [
-                        103.7599568,
-                        1.3846207
-                    ],
-                    [
-                        103.759955,
-                        1.3846649
-                    ],
-                    [
-                        103.759947,
-                        1.3847091
-                    ],
-                    [
-                        103.7599258,
-                        1.3847559
-                    ],
-                    [
-                        103.7598897,
-                        1.3848166
-                    ]
-                ]
+                'coordinates': route
             }
         }]
     };
