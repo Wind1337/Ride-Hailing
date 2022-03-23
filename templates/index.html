@@ -106,7 +106,7 @@
                             <!--JustRide-->
                             <select class="custom-select my-2" id="single" name="selectedPass">
                                 <option value="" disabled selected>JustRide</option>
-                                {% for index in range(size - 1) %}
+                                {% for index in range(just_ride) %}
                                     <option value="{{detail[index][0]}}">{{detail[index][0]}}</option>
                                 {% endfor %}
                             </select>
@@ -114,8 +114,8 @@
                             <!--RideShare-->
                             <select class="custom-select my-2" id="shared" name="selectedPass">
                                 <option value="" disabled selected>RideShare</option>
-                                {% for sharedPass in sharedRidePass %}
-                                    <option value="{{sharedPass}}">{{sharedPass}}</option>
+                                {% for index in range(size - just_ride - 1) %}
+                                    <option value="{{detail[index + just_ride][0]}}">{{detail[index + just_ride][0]}}</option>
                                 {% endfor %}
                             </select>
 
