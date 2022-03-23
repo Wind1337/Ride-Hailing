@@ -1,6 +1,7 @@
 from flask import *
 from Matching import *
 from geopy.geocoders import Nominatim
+from routing import route
 
 app = Flask(__name__)
 
@@ -15,48 +16,52 @@ app.config.update(dict(
 @app.route('/')
 @app.route('/index', methods=['POST', 'GET'])
 def index():
-    scenario = 6
-    detail = [[0 for column in range(4)] for row in range(scenario)]
+    plot = []
 
     if request.method == "POST":
         passenger_name = request.form.get("selectedPass")
+        passenger_index, plot = find_route(passenger_name)
 
-        # read the nodes.json file
-        with open("data/nodes.json") as file:
-            data = json.load(file)
-            for index in range(len(matchResult)):
-                # retrieve passenger's fullname
-                detail[index][0] = matchResult[index][0].fullname
-                # retrieve driver's fullname
-                detail[index][1] = matchResult[index][1].fullname
-                # loop through the nodes.json file
-                for element in data['nodes']:
-                    # retrieve the passenger's pick up latitude and longitude
-                    if element['nodeID'] == matchResult[index][0].pickup:
-                        detail[index][2] = Nominatim(user_agent="Geocoder", timeout=3).reverse(
-                            str(element['latitude']) + "," + str(element['longitude'])).address
-                    # retrieve the passenger's drop off latitude and longitude
-                    if element['nodeID'] == matchResult[index][0].dropoff:
-                        detail[index][3] = Nominatim(user_agent="Geocoder", timeout=3).reverse(
-                            str(element['latitude']) + "," + str(element['longitude'])).address
-
+        return render_template('index.html', detail=detail, index=passenger_index, size=len(detail), route=plot)
     else:
-        # start - not displaying any details
-        detail = [["" for column in range(4)] for row in range(4)]
-        singleRidePass = []
-        sharedRidePass = []
+        plot.append([nodeDict.get(matchResult[0][0].pickup)[0], nodeDict.get(matchResult[0][0].pickup)[1]])
+        detail.append([" ", " ", " ", " "])
 
-        for index in range(len(matchResult)):
-            # add passenger's fullname in an array
-            singleRidePass.append(matchResult[index][0].fullname)
+        return render_template('index.html', detail=detail, index=len(detail) - 1, size=len(detail), route=plot)
 
-        for index in range(len(sharedMatchResult)):
-            # add passenger's fullname in an array
-            sharedPass = sharedMatchResult[index][0].fullname + " & " + sharedMatchResult[index][1].fullname
-            sharedRidePass.append(sharedPass)
 
-        return render_template('index.html', detail=detail, count=4, singleRidePass=singleRidePass,
-                               sharedRidePass=sharedRidePass)
+def find_route(passenger_name):
+
+    try:
+        passenger_1, passenger_2 = passenger_name.split(" & ")
+    except ValueError:
+        passenger_1 = passenger_name
+
+    plot = []
+    passenger_index = 0
+
+    for index in range(len(matchResult)):
+
+        if passenger_1 == matchResult[index][0].fullname:
+            passenger_index = index
+            pickup_node = matchResult[index][0].pickup
+            dropoff_node = matchResult[i][0].dropoff
+
+            route_path = route(pickup_node, dropoff_node)
+
+            with open("data/nodes.json") as file:
+                data = json.load(file)
+
+                for index in range(len(route_path)):
+
+                    for element in data['nodes']:
+
+                        if element['nodeID'] == route_path[index]:
+                            plot.append([element['latitude'], element['longitude']])
+                            file.close()
+
+    return passenger_index, plot
+
     # scenario = 4
     # counter = 0
     # detail = [[0 for column in range(4)] for row in range(scenario)]
@@ -168,6 +173,19 @@ def index():
 #
 #     return locate, trip, plot
 
-
 if __name__ == '__main__':
+
+    detail = []
+    for index in range(len(matchResult)):
+        passenger_name = matchResult[index][0].fullname
+        driver_name = matchResult[index][1].fullname
+        pickup = Nominatim(user_agent="Geocoder").reverse(
+            str(nodeDict.get(matchResult[i][0].pickup)[0]) + "," + str(
+                nodeDict.get(matchResult[i][0].pickup)[1])).address
+        dropoff = Nominatim(user_agent="Geocoder").reverse(
+            str(nodeDict.get(matchResult[i][0].dropoff)[0]) + "," + str(
+                nodeDict.get(matchResult[i][0].dropoff)[1])).address
+
+        detail.append([passenger_name, driver_name, pickup, dropoff])
+
     app.run(debug=True)
