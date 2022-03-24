@@ -1,7 +1,14 @@
 from flask import *
 from Matching import *
+import geopy.geocoders
 from geopy.geocoders import Nominatim
 from routing import route
+
+import certifi
+import ssl
+
+ctx = ssl.create_default_context(cafile=certifi.where())
+geopy.geocoders.options.default_ssl_context = ctx
 
 app = Flask(__name__)
 
