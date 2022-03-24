@@ -28,9 +28,15 @@ def index():
     if request.method == "POST":
         passenger_name = request.form.get("selectedPass")
         passenger_index, plot, marker = find_route(passenger_name)
+        try:
+            passenger_1, passenger_2 = passenger_name.split(" & ")
+        except ValueError:
+            passenger_1 = passenger_name
+            passenger_2 = ""
 
         return render_template('index.html', detail=detail, index=passenger_index, just_ride=just_ride,
-                               size=len(detail), route=plot, marker=marker)
+                               size=len(detail), route=plot, marker=marker, passenger_1=passenger_1,
+                               passenger_2=passenger_2)
     else:
         plot.append([nodeDict.get(matchResult[0][0].pickup)[1], nodeDict.get(matchResult[0][0].pickup)[0]])
         detail.append([" ", " ", " ", " "])

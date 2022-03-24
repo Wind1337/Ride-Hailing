@@ -95,6 +95,13 @@
 
                     </form>
                     <!--end ts-form-->
+					
+                </div>
+                <!--end ts-form__map-search-->
+
+                <!-- FORM
+                =====================================================================================================-->
+                <div class="ts-form__map-search ts-z-index__2" style="position: absolute; bottom: 20px; right: 35px;">
 
 					<!--Form-->
                     <form class="ts-form" style="margin-top: 5px;" action="/index" method="POST" id="optionForm" onchange="submitForm();">
@@ -128,7 +135,7 @@
 
                     </form>
                     <!--end ts-form-->
-					
+
                 </div>
                 <!--end ts-form__map-search-->
 
@@ -159,8 +166,9 @@
 <script src="{{ url_for('static', filename='custom.js') }}"></script>
 <script src="{{ url_for('static', filename='map-leaflet.js') }}"></script>
 <script type = "text/javascript">
+    var passenger_1 = '{{ passenger_1 }}'
+    var passenger_2 = '{{ passenger_2 }}'
     var route_path = UI({{route|tojson}}, {{marker|tojson}})
-    var passenger_name = {{detail[index][0]|tojson}}
 </script>
 <script type="text/javascript" src="script.js"></script>
 
