@@ -1,15 +1,10 @@
 function UI(route_path, marker)
 {
-    for(var counter = 0; counter < marker.length; counter++)
-    {
-        console.log(marker[counter])
-    }
-
     var map = new maplibregl.Map({
         container: 'ts-map-hero',
         style: 'https://api.maptiler.com/maps/streets/style.json?key=b74gkn1VskvsZy9K7x1q',
         center: [route_path[0][0], route_path[0][1]],
-        zoom: 17
+        zoom: 15
     });
 
     // start
@@ -17,6 +12,18 @@ function UI(route_path, marker)
 
     // end
     var destination = [route_path[route_path.length - 1][0], route_path[route_path.length - 1][1]];
+
+    for(let counter = 0; counter < marker.length; counter++)
+    {
+        if(counter % 2 == 0)
+        {
+            var pickup_marker = new maplibregl.Marker({color: "#FB9F2C"}).setLngLat(marker[counter]).setPopup(new maplibregl.Popup().setHTML("<h6>Passenger's Pickup</h6>")).addTo(map);
+        }
+        else
+        {
+            var location_marker = new maplibregl.Marker({color: "#B191EB"}).setPopup(new maplibregl.Popup().setHTML("<h6>Passenger's Dropoff</h6>")).setLngLat(marker[counter]).addTo(map);
+        }
+    }
 
     // A simple line from origin to destination.
     var route = {
@@ -52,7 +59,7 @@ function UI(route_path, marker)
     // Number of steps to use in the arc and animation, more steps means
     // a smoother arc and animation, but too many steps will result in a
     // low frame rate
-    var steps = 500;
+    var steps = 1000;
 
     // Draw an arc between the `origin` & `destination` of the two points
     for (var i = 0; i < lineDistance; i += lineDistance / steps) {
@@ -83,7 +90,7 @@ function UI(route_path, marker)
             'source': 'route',
             'type': 'line',
             'paint': {
-                'line-width': 5,
+                'line-width': 4,
                 'line-color': '#FF0000'
             }
         });
@@ -122,6 +129,7 @@ function UI(route_path, marker)
             }
 
             counter = counter + 1;
+
         }
 
         // Start the animation.
@@ -145,6 +153,7 @@ var passPickupMarker = L.marker([1.3790334, 103.7642649]).addTo(map);
 var passDropOffMarker = L.marker([1.3790293, 103.7640756]).addTo(map);
 var driLocation = L.marker([1.3842443, 103.7598278]).addTo(map);*/
 
+document.body.innerHTML = document.body.innerHTML.replace(/AND/g, '<br><br>')
 
 function submitForm()
 {

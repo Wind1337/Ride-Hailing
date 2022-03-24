@@ -95,7 +95,7 @@
 
                     </form>
                     <!--end ts-form-->
-					
+
 					<!--Form-->
                     <form class="ts-form" style="margin-top: 5px;" action="/index" method="POST" id="optionForm" onchange="submitForm();">
 
@@ -160,6 +160,7 @@
 <script src="{{ url_for('static', filename='map-leaflet.js') }}"></script>
 <script type = "text/javascript">
     var route_path = UI({{route|tojson}}, {{marker|tojson}})
+    var passenger_name = {{detail[index][0]|tojson}}
 </script>
 <script type="text/javascript" src="script.js"></script>
 

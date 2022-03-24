@@ -33,6 +33,7 @@ def index():
 
 
 def find_route(passenger_name):
+    route_path = []
     plot = []
     marker = []
     driver_node = dropoff_node = ""
@@ -43,13 +44,11 @@ def find_route(passenger_name):
     except ValueError:
         passenger_1 = passenger_name
 
-
     for index in range(len(matchResult)):
 
         if passenger_1 == matchResult[index][0].fullname:
             passenger_index = index
-            driver_node = matchResult[index][1].location
-            dropoff_node = matchResult[index][0].dropoff
+            node = [matchResult[index][1].location, matchResult[index][0].pickup, matchResult[index][0].dropoff]
 
             marker.append([nodeDict.get(matchResult[passenger_index][0].pickup)[1],
                            nodeDict.get(matchResult[passenger_index][0].pickup)[0]])
@@ -61,22 +60,26 @@ def find_route(passenger_name):
         try:
             if passenger_1 == sharedMatchResult[index][0].fullname:
                 passenger_index = index + just_ride
-                driver_node = sharedMatchResult[index][2].location
-                dropoff_node = sharedMatchResult[index][0].dropoff
+                node = [sharedMatchResult[index][2].location, sharedMatchResult[index][0].pickup, sharedMatchResult[index][1].pickup, sharedMatchResult[index][0].dropoff, sharedMatchResult[index][1].dropoff]
 
                 marker.append([nodeDict.get(sharedMatchResult[index][0].pickup)[1],
                                nodeDict.get(sharedMatchResult[index][0].pickup)[0]])
                 marker.append([nodeDict.get(sharedMatchResult[index][0].dropoff)[1],
                                nodeDict.get(sharedMatchResult[index][0].dropoff)[0]])
-                marker.append([nodeDict.get(sharedMatchResult[index][1].pickup)[0],
-                               nodeDict.get(sharedMatchResult[index][1].pickup)[1]])
+                marker.append([nodeDict.get(sharedMatchResult[index][1].pickup)[1],
+                               nodeDict.get(sharedMatchResult[index][1].pickup)[0]])
                 marker.append([nodeDict.get(sharedMatchResult[index][1].dropoff)[1],
                                nodeDict.get(sharedMatchResult[index][1].dropoff)[0]])
                 break
         except IndexError:
             pass
 
-    route_path = route(driver_node, dropoff_node)
+    for counter in range(len(node) - 1):
+
+        temp = route(node[counter], node[counter + 1])
+
+        for element in temp:
+            route_path.append(element)
 
     for index in range(len(route_path)):
 
@@ -103,7 +106,6 @@ def find_route(passenger_name):
                     plot.append([element['longitude'], element['latitude']])
                     edges = 0
 
-    print(marker)
     return passenger_index, plot, marker
 
 
@@ -131,12 +133,14 @@ if __name__ == '__main__':
         driver_name = sharedMatchResult[i][2].fullname
         pickup = Nominatim(user_agent="Geocoder", timeout=3).reverse(
             str(nodeDict.get(sharedMatchResult[index][0].pickup)[0]) + "," + str(
-                nodeDict.get(sharedMatchResult[index][0].pickup)[1])).address + "AND" + Nominatim(user_agent="Geocoder", timeout=3).reverse(
+                nodeDict.get(sharedMatchResult[index][0].pickup)[1])).address + "AND" + Nominatim(user_agent="Geocoder",
+                                                                                                  timeout=3).reverse(
             str(nodeDict.get(sharedMatchResult[index][1].pickup)[0]) + "," + str(
                 nodeDict.get(sharedMatchResult[index][1].pickup)[1])).address
         dropoff = Nominatim(user_agent="Geocoder", timeout=3).reverse(
             str(nodeDict.get(sharedMatchResult[index][0].dropoff)[0]) + "," + str(
-                nodeDict.get(sharedMatchResult[index][0].dropoff)[1])).address + "AND" + Nominatim(user_agent="Geocoder", timeout=3).reverse(
+                nodeDict.get(sharedMatchResult[index][0].dropoff)[1])).address + "AND" + Nominatim(
+            user_agent="Geocoder", timeout=3).reverse(
             str(nodeDict.get(sharedMatchResult[index][1].dropoff)[0]) + "," + str(
                 nodeDict.get(sharedMatchResult[index][1].dropoff)[1])).address
 
