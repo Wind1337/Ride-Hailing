@@ -77,6 +77,8 @@ def find_route(passenger_name):
                                nodeDict.get(sharedMatchResult[index][1].pickup)[0]])
                 marker.append([nodeDict.get(sharedMatchResult[index][1].dropoff)[1],
                                nodeDict.get(sharedMatchResult[index][1].dropoff)[0]])
+
+                print(marker[1], marker[3])
                 break
         except IndexError:
             pass
