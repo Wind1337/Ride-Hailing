@@ -35,7 +35,7 @@ def index():
 def find_route(passenger_name):
     plot = []
     marker = []
-    pickup_node = dropoff_node = ""
+    driver_node = dropoff_node = ""
     passenger_index = edges = 0
 
     try:
@@ -48,7 +48,7 @@ def find_route(passenger_name):
 
         if passenger_1 == matchResult[index][0].fullname:
             passenger_index = index
-            pickup_node = matchResult[index][0].pickup
+            driver_node = matchResult[index][1].location
             dropoff_node = matchResult[index][0].dropoff
 
             marker.append([nodeDict.get(matchResult[passenger_index][0].pickup)[1],
@@ -61,7 +61,7 @@ def find_route(passenger_name):
         try:
             if passenger_1 == sharedMatchResult[index][0].fullname:
                 passenger_index = index + just_ride
-                pickup_node = sharedMatchResult[index][0].pickup
+                driver_node = sharedMatchResult[index][2].location
                 dropoff_node = sharedMatchResult[index][0].dropoff
 
                 marker.append([nodeDict.get(sharedMatchResult[index][0].pickup)[1],
@@ -76,7 +76,7 @@ def find_route(passenger_name):
         except IndexError:
             pass
 
-    route_path = route(pickup_node, dropoff_node)
+    route_path = route(driver_node, dropoff_node)
 
     for index in range(len(route_path)):
 
