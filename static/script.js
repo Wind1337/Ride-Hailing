@@ -1,5 +1,13 @@
 function UI(route_path, marker)
 {
+    console.log(passenger_1)
+    if (passenger_1 == 'None'){
+        document.getElementById("traffic").disabled = true;
+    }
+    else {
+        document.getElementById("traffic").disabled = false;
+    }
+
     var map = new maplibregl.Map({
         container: 'ts-map-hero',
         style: 'https://api.maptiler.com/maps/streets/style.json?key=b74gkn1VskvsZy9K7x1q',
