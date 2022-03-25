@@ -82,8 +82,8 @@ def reconstruct_path(routeTable, startID, endID):
     while current != startID:  # note: this will fail if no path found
         path.append(current)
         current = routeTable[current]
-    path.append(startID)  # optional
-    path.reverse()  # optional
+    path.append(startID)
+    path.reverse()
     return path
 
 
@@ -98,9 +98,6 @@ def route(startNodeID, endNodeID):
     else:
         return ["Path Not Found"]
 
-    # json_object = json.dumps(pathDict, indent=4)
-    # with open("./output/route.json", "w") as outfile:
-    # outfile.write(json_object)
 
 # !!! THIS LINE IS ONLY TO TEST IF ROUTING WORKS !!!
 route(6542773042, 4600448914)
