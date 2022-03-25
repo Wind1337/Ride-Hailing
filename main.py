@@ -1,5 +1,8 @@
 from flask import *
-from Matching import *
+
+import Matching
+import Driver
+import Passenger
 import geopy.geocoders
 from geopy.geocoders import Nominatim
 from routing import route
@@ -88,7 +91,9 @@ def find_route(passenger_name):
         try:
             if passenger_1 == sharedMatchResult[index][0].fullname:
                 passenger_index = index + just_ride
-                node = [sharedMatchResult[index][2].location, sharedMatchResult[index][0].pickup, sharedMatchResult[index][1].pickup, sharedMatchResult[index][0].dropoff, sharedMatchResult[index][1].dropoff]
+                node = [sharedMatchResult[index][2].location, sharedMatchResult[index][0].pickup,
+                        sharedMatchResult[index][1].pickup, sharedMatchResult[index][0].dropoff,
+                        sharedMatchResult[index][1].dropoff]
 
                 marker.append([nodeDict.get(sharedMatchResult[index][0].pickup)[1],
                                nodeDict.get(sharedMatchResult[index][0].pickup)[0]])
@@ -139,6 +144,32 @@ def find_route(passenger_name):
     return passenger_index, plot, marker
 
 
+def importDriverPassenger():
+    DriverLinkedList = Driver.DriverLinkedList()
+    PassengerLinkedList = Passenger.PassengerLinkedList()
+
+    with open("data/drivers.json") as driver_file:
+        driver_data = json.load(driver_file)
+
+    with open("data/passengers.json") as passengers_file:
+        passenger_data = json.load(passengers_file)
+
+    for i in driver_data["drivers"]:
+        driver = Driver.DriverNode(i["driverName"], i["driverCarType"], i["driverSeatCapacity"], i["driverLocation"])
+        DriverLinkedList.insertAtTail(driver)
+
+    for i in passenger_data["passengers"]:
+        if i["passengerShared"] == "True":
+            shared = True
+        else:
+            shared = False
+        passenger = Passenger.PassengerNode(i["passengerName"], i["passengerPickup"], i["passengerDropoff"],
+                                            i["passengerCarType"], i["passengerSeatCapacity"], shared)
+        PassengerLinkedList.insertAtTail(passenger)
+
+    return DriverLinkedList, PassengerLinkedList
+
+
 if __name__ == '__main__':
     just_ride = 4
     detail = []
@@ -146,21 +177,26 @@ if __name__ == '__main__':
     with open("data/nodes.json") as nodes_file:
         nodes_data = json.load(nodes_file)
 
+    nodeDict = Matching.importNodes(nodes_data)
+
+    DriverLinkedList, PassengerLinkedList = importDriverPassenger()
+    matchResult, sharedMatchResult = Matching.match(DriverLinkedList, PassengerLinkedList)
+
     for index in range(len(matchResult)):
         passenger_name = matchResult[index][0].fullname
         driver_name = matchResult[index][1].fullname
         pickup = Nominatim(user_agent="Geocoder", timeout=3).reverse(
-            str(nodeDict.get(matchResult[i][0].pickup)[0]) + "," + str(
-                nodeDict.get(matchResult[i][0].pickup)[1])).address
+            str(nodeDict.get(matchResult[index][0].pickup)[0]) + "," + str(
+                nodeDict.get(matchResult[index][0].pickup)[1])).address
         dropoff = Nominatim(user_agent="Geocoder", timeout=3).reverse(
-            str(nodeDict.get(matchResult[i][0].dropoff)[0]) + "," + str(
-                nodeDict.get(matchResult[i][0].dropoff)[1])).address
+            str(nodeDict.get(matchResult[index][0].dropoff)[0]) + "," + str(
+                nodeDict.get(matchResult[index][0].dropoff)[1])).address
 
         detail.append([passenger_name, driver_name, pickup, dropoff])
 
     for index in range(len(sharedMatchResult)):
         passenger_name = str(sharedMatchResult[index][0].fullname) + " & " + str(sharedMatchResult[index][1].fullname)
-        driver_name = sharedMatchResult[i][2].fullname
+        driver_name = sharedMatchResult[index][2].fullname
         pickup = Nominatim(user_agent="Geocoder", timeout=3).reverse(
             str(nodeDict.get(sharedMatchResult[index][0].pickup)[0]) + "," + str(
                 nodeDict.get(sharedMatchResult[index][0].pickup)[1])).address + "AND" + Nominatim(user_agent="Geocoder",
