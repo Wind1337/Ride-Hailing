@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='jquery.scrollbar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='leaflet.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='toggle.css') }}">
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
@@ -116,8 +117,12 @@
 
                             <form action="/index" method="POST" id="optionForm" onchange="submitForm();">
 
-                                <input type="checkbox" id="traffic" name="trafficChecked" value="traffic">
-                                <label for="traffic" style="font-size: 16px; font-weight: 400;">Traffic Data</label>
+                                <div class="slide-toggle">
+                                    <input type="checkbox" id="traffic" name="trafficChecked" value="traffic" />
+                                    <label for="traffic" class="slide-toggle-input"></label>
+                                </div>
+
+                                <br>
 
                                 <!--JustRide-->
                                 <select class="custom-select my-2" id="single" name="selectedPass">

@@ -1,0 +1,52 @@
+.slide-toggle {
+  position: absolute;
+  right: 5px;
+}
+.slide-toggle label {
+  display: block;
+  width: 115px;
+  line-height: 25px;
+  text-align: center;
+  background: #a1a1a1;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #6e6e6e;
+  border-radius: 3px;
+}
+.slide-toggle label:after {
+  content: 'traffic';
+}
+.slide-toggle input[type="checkbox"] {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  margin: 7px;
+  display: block;
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  -moz-transition: -moz-transform 120ms linear;
+  -o-transition: -o-transform 120ms linear;
+  -webkit-transition: -webkit-transform 120ms linear;
+  transition: transform 120ms linear;
+  background: #fff;
+  border: 3px solid #555555;
+  border-radius: 50%;
+}
+.slide-toggle input[type="checkbox"]:checked {
+  -moz-transform: translate3d(90px, 0, 0);
+  -ms-transform: translate3d(90px, 0, 0);
+  -webkit-transform: translate3d(90px, 0, 0);
+  transform: translate3d(90px, 0, 0);
+  border-color: #4d701b;
+}
+.slide-toggle input[type="checkbox"]:checked + label {
+  background: #9ED54F;
+  color: #314711;
+}
+.slide-toggle input[type="checkbox"]:checked + label:after {
+  content: 'traffic';
+}

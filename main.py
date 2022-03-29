@@ -87,11 +87,11 @@ def find_route(passenger_name, traffic):
             pass
 
     for counter in range(len(node) - 1):
+        dictionary["traffic"] = traffic
 
         if traffic is None:
             temp = route(node[counter], node[counter + 1])
         else:
-            dictionary["traffic"] = traffic
             temp = routewithtraffic(node[counter], node[counter + 1])
 
         for element in temp:

@@ -1,6 +1,12 @@
 function UI(route_path, marker)
 {
     console.log(traffic)
+    if (traffic == 'traffic')
+    {
+        console.log(traffic)
+        document.getElementById("traffic").checked = true;
+    }
+
     var map = new maplibregl.Map({
         container: 'ts-map-hero',
         style: 'https://api.maptiler.com/maps/streets/style.json?key=b74gkn1VskvsZy9K7x1q',
@@ -71,7 +77,7 @@ function UI(route_path, marker)
     // Number of steps to use in the arc and animation, more steps means
     // a smoother arc and animation, but too many steps will result in a
     // low frame rate
-    var steps = 1000;
+    var steps = 1500;
 
     // Draw an arc between the `origin` & `destination` of the two points
     for (var i = 0; i < lineDistance; i += lineDistance / steps) {
@@ -171,8 +177,6 @@ function submitForm()
 {
     var selectedSingle = document.getElementById('single').value;
     var selectedShared = document.getElementById('shared').value;
-    console.log(selectedSingle)
-    console.log(selectedShared)
     if (selectedSingle != 'default' || selectedShared != 'default')
     {
         document.getElementById('optionForm').submit();
