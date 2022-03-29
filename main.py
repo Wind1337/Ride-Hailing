@@ -28,11 +28,7 @@ app.config.update(dict(
 def index():
 
     if request.method == "POST":
-        find_route(request.form.get("selectedPass"))
-        traffic_checked = request.form.get("trafficChecked")
-
-        # None = not checked, 'traffic' = checked
-        print(traffic_checked)
+        find_route(request.form.get("selectedPass"), request.form.get("trafficChecked"))
 
         return render_template('index.html', data=dictionary)
     else:
@@ -47,7 +43,7 @@ def index():
         return render_template('index.html', data=dictionary)
 
 
-def find_route(passenger_name):
+def find_route(passenger_name, traffic):
     route_path = []
     plot = []
     marker = []
@@ -92,7 +88,12 @@ def find_route(passenger_name):
 
     for counter in range(len(node) - 1):
 
-        temp = route(node[counter], node[counter + 1])
+        print(traffic)
+
+        if traffic is None:
+            temp = route(node[counter], node[counter + 1])
+        else:
+            temp = routewithtraffic(node[counter], node[counter + 1])
 
         for element in temp:
             route_path.append(element)
