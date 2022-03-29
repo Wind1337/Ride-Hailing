@@ -39,15 +39,16 @@ def index():
 
     if request.method == "POST":
         if(request.form.get("trafficChecked")) != trafficCheckbox:
-            if request.form.get("trafficChecked"):
-                trafficCheckbox = True
-            else:
-                trafficCheckbox = None
+            trafficCheckbox = request.form.get("trafficChecked")
         else:
             if request.form.get("selectedPass") != single_passenger_name:
                 passenger_name = request.form.get("selectedPass")
+                single_passenger_name = request.form.get("selectedPass")
+                shared_passenger_name = None
             else:
                 passenger_name = request.form.get("selectedSharedPass")
+                single_passenger_name = None
+                shared_passenger_name = request.form.get("selectedSharedPass")
         single_passenger_name = request.form.get("selectedPass")
         shared_passenger_name = request.form.get("selectedSharedPass")
         passenger_index, plot, marker = find_route(passenger_name)
