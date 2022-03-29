@@ -38,9 +38,6 @@ def index():
     global passenger_name
 
     if request.method == "POST":
-        print(request.form.get("selectedPass"))
-        print(request.form.get("selectedSharedPass"))
-        print(request.form.get("trafficChecked"))
         if(request.form.get("trafficChecked")) != trafficCheckbox:
             if request.form.get("trafficChecked"):
                 trafficCheckbox = True
