@@ -49,8 +49,6 @@ def index():
                 passenger_name = request.form.get("selectedSharedPass")
                 single_passenger_name = None
                 shared_passenger_name = request.form.get("selectedSharedPass")
-        single_passenger_name = request.form.get("selectedPass")
-        shared_passenger_name = request.form.get("selectedSharedPass")
         passenger_index, plot, marker = find_route(passenger_name)
         try:
             passenger_1, passenger_2 = passenger_name.split(" & ")
@@ -67,7 +65,7 @@ def index():
                                     passenger_2=passenger_2, traffic="false")
     else:
         plot.append([nodeDict.get(matchResult[0][0].pickup)[1], nodeDict.get(matchResult[0][0].pickup)[0]])
-        detail.append([" ", " ", " ", " "])
+        # detail.append([" ", " ", " ", " "])
         return render_template('index.html', detail=detail, index=len(detail) - 1, just_ride=just_ride,
                                size=len(detail), route=plot, marker='', passenger_1='None')
 

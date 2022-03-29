@@ -30,6 +30,7 @@ function UI(route_path, marker)
     var destination = [route_path[route_path.length - 1][0], route_path[route_path.length - 1][1]];
 
     if (marker.length == 4){
+        document.getElementById("shared").value = passenger_1 + " & " + passenger_2
         console.log("RideShare")
         for(let counter = 0; counter < marker.length; counter++)
         {
@@ -54,10 +55,12 @@ function UI(route_path, marker)
                 .setPopup(new maplibregl.Popup().setHTML(passenger_2+"'s Dropoff")).addTo(map);
             }
         }
-        document.getElementById("shared").value = passenger_1 + " & " + passenger_2
     }
     else {
         console.log("JustRide")
+        if (passenger_1 != 'None'){
+            document.getElementById("single").value = passenger_1
+        }
         for(let counter = 0; counter < marker.length; counter++)
         {
             if (counter == 0) {         // [0] is first passenger's pickup
@@ -82,7 +85,6 @@ function UI(route_path, marker)
                 .setPopup(new maplibregl.Popup().setHTML(passenger_1+"'s Dropoff"))
                 .setLngLat(marker[counter]).addTo(map);
             }*/
-            document.getElementById("single").value = passenger_1
         }
     }
 
