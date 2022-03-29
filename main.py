@@ -13,11 +13,6 @@ import ssl
 ctx = ssl.create_default_context(cafile=certifi.where())
 geopy.geocoders.options.default_ssl_context = ctx
 
-single_passenger_name = None
-shared_passenger_name = None
-passenger_name = None
-trafficCheckbox = None
-
 app = Flask(__name__)
 
 # add a SECRET_KEY in the application configuration to take advantage of csrf protection
@@ -31,62 +26,37 @@ app.config.update(dict(
 @app.route('/')
 @app.route('/index', methods=['POST', 'GET'])
 def index():
-    plot = []
-    global single_passenger_name
-    global shared_passenger_name
-    global trafficCheckbox
-    global passenger_name
 
     if request.method == "POST":
-        if(request.form.get("trafficChecked")) != trafficCheckbox:
-            if request.form.get("trafficChecked"):
-                trafficCheckbox = True
-            else:
-                trafficCheckbox = None
-        else:
-            if request.form.get("selectedPass") != single_passenger_name:
-                passenger_name = request.form.get("selectedPass")
-            else:
-                passenger_name = request.form.get("selectedSharedPass")
-        single_passenger_name = request.form.get("selectedPass")
-        shared_passenger_name = request.form.get("selectedSharedPass")
-        passenger_index, plot, marker = find_route(passenger_name)
-        try:
-            passenger_1, passenger_2 = passenger_name.split(" & ")
-        except ValueError:
-            passenger_1 = passenger_name
-            passenger_2 = ""
-        if trafficCheckbox:
-            return render_template('index.html', detail=detail, index=passenger_index, just_ride=just_ride,
-                                   size=len(detail), route=plot, marker=marker, passenger_1=passenger_1,
-                                   passenger_2=passenger_2, traffic="true")
-        else:
-            return render_template('index.html', detail=detail, index=passenger_index, just_ride=just_ride,
-                                    size=len(detail), route=plot, marker=marker, passenger_1=passenger_1,
-                                    passenger_2=passenger_2, traffic="false")
+        find_route(request.form.get("selectedPass"))
+
+        return render_template('index.html', data=dictionary)
     else:
-        plot.append([nodeDict.get(matchResult[0][0].pickup)[1], nodeDict.get(matchResult[0][0].pickup)[0]])
-        detail.append([" ", " ", " ", " "])
-        return render_template('index.html', detail=detail, index=len(detail) - 1, just_ride=just_ride,
-                               size=len(detail), route=plot, marker='', passenger_1='None')
+        plot = [[nodeDict.get(matchResult[0][0].pickup)[1], nodeDict.get(matchResult[0][0].pickup)[0]]]
+        dictionary["detail"].append([" ", " ", " ", " "])
+
+        dictionary["index"] = len(dictionary["detail"]) - 1
+        dictionary["route"] = plot
+        dictionary["marker"] = ""
+        dictionary["passenger_1"] = None
+
+        return render_template('index.html', data=dictionary)
 
 
 def find_route(passenger_name):
-    global trafficCheckbox
     route_path = []
     plot = []
     marker = []
-    driver_node = dropoff_node = ""
     passenger_index = edges = 0
 
     try:
-        passenger_1, passenger_2 = passenger_name.split(" & ")
+        dictionary["passenger_1"], dictionary["passenger_2"] = passenger_name.split(" & ")
     except ValueError:
-        passenger_1 = passenger_name
+        dictionary["passenger_1"] = passenger_name
 
     for index in range(len(matchResult)):
 
-        if passenger_1 == matchResult[index][0].fullname:
+        if dictionary["passenger_1"] == matchResult[index][0].fullname:
             passenger_index = index
             node = [matchResult[index][1].location, matchResult[index][0].pickup, matchResult[index][0].dropoff]
 
@@ -98,8 +68,8 @@ def find_route(passenger_name):
             break
 
         try:
-            if passenger_1 == sharedMatchResult[index][0].fullname:
-                passenger_index = index + just_ride
+            if dictionary["passenger_1"] == sharedMatchResult[index][0].fullname:
+                passenger_index = index + len(matchResult)
                 node = [sharedMatchResult[index][2].location, sharedMatchResult[index][0].pickup,
                         sharedMatchResult[index][1].pickup, sharedMatchResult[index][0].dropoff,
                         sharedMatchResult[index][1].dropoff]
@@ -112,17 +82,13 @@ def find_route(passenger_name):
                                nodeDict.get(sharedMatchResult[index][1].pickup)[0]])
                 marker.append([nodeDict.get(sharedMatchResult[index][1].dropoff)[1],
                                nodeDict.get(sharedMatchResult[index][1].dropoff)[0]])
-
-                print(marker[1], marker[3])
                 break
         except IndexError:
             pass
 
     for counter in range(len(node) - 1):
-        if(trafficCheckbox):
-            temp = routewithtraffic(node[counter], node[counter + 1])
-        else:
-            temp = route(node[counter], node[counter + 1])
+
+        temp = route(node[counter], node[counter + 1])
 
         for element in temp:
             route_path.append(element)
@@ -152,7 +118,9 @@ def find_route(passenger_name):
                     plot.append([element['longitude'], element['latitude']])
                     edges = 0
 
-    return passenger_index, plot, marker
+    dictionary["index"] = passenger_index
+    dictionary["route"] = plot
+    dictionary["marker"] = marker
 
 
 def importDriverPassenger():
@@ -182,16 +150,15 @@ def importDriverPassenger():
 
 
 if __name__ == '__main__':
-    just_ride = 4
+    DriverLinkedList, PassengerLinkedList = importDriverPassenger()
+    matchResult, sharedMatchResult = Matching.match(DriverLinkedList, PassengerLinkedList)
+    dictionary = {"just_ride": len(matchResult)}
     detail = []
 
     with open("data/nodes.json") as nodes_file:
         nodes_data = json.load(nodes_file)
 
     nodeDict = Matching.importNodes(nodes_data)
-
-    DriverLinkedList, PassengerLinkedList = importDriverPassenger()
-    matchResult, sharedMatchResult = Matching.match(DriverLinkedList, PassengerLinkedList)
 
     for index in range(len(matchResult)):
         passenger_name = matchResult[index][0].fullname
@@ -222,5 +189,8 @@ if __name__ == '__main__':
                 nodeDict.get(sharedMatchResult[index][1].dropoff)[1])).address
 
         detail.append([passenger_name, driver_name, pickup, dropoff])
+
+    dictionary['detail'] = detail
+    dictionary["size"] = len(dictionary["detail"])
 
     app.run(debug=True)

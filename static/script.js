@@ -1,20 +1,9 @@
 function UI(route_path, marker)
 {
-    console.log(passenger_1)
-    if (passenger_1 == 'None'){
+    if (passenger_1 == "None")
+    {
         document.getElementById("traffic").disabled = true;
     }
-    else {
-        document.getElementById("traffic").disabled = false;
-    }
-    if (traffic == "true"){
-        document.getElementById("traffic").checked = true;
-    }
-    else{
-        document.getElementById("traffic").checked = false;
-    }
-    document.getElementById("single").value = "default"
-    document.getElementById("shared").value = "default"
 
     var map = new maplibregl.Map({
         container: 'ts-map-hero',
@@ -29,62 +18,27 @@ function UI(route_path, marker)
     // end
     var destination = [route_path[route_path.length - 1][0], route_path[route_path.length - 1][1]];
 
-    if (marker.length == 4){
-        console.log("RideShare")
-        for(let counter = 0; counter < marker.length; counter++)
-        {
-            if (counter == 0) {         // [0] is first passenger's pickup
-                var pickup_marker = new maplibregl.Marker({color: "#FB9F2C"})
-                .setLngLat(marker[counter])
-                .setPopup(new maplibregl.Popup().setHTML(passenger_1+"'s Pickup")).addTo(map);
-            }
-            else if (counter == 1) {    // [1] is first passenger's dropoff
-                var pickup_marker = new maplibregl.Marker({color: "#B191EB"})
-                .setLngLat(marker[counter])
-                .setPopup(new maplibregl.Popup().setHTML(passenger_1+"'s Dropoff")).addTo(map);
-            }
-            else if (counter == 2) {    // [2] is second passenger's pickup
-                var pickup_marker = new maplibregl.Marker({color: "#FB9F2C"})
-                .setLngLat(marker[counter])
-                .setPopup(new maplibregl.Popup().setHTML(passenger_2+"'s Pickup")).addTo(map);
-            }
-            else {                      // [3] is second passenger's dropoff
-                var pickup_marker = new maplibregl.Marker({color: "#B191EB"})
-                .setLngLat(marker[counter])
-                .setPopup(new maplibregl.Popup().setHTML(passenger_2+"'s Dropoff")).addTo(map);
-            }
+
+    for(let counter = 0; counter < marker.length; counter++)
+    {
+        if (counter == 0) {         // [0] is first passenger's pickup
+            var pickup_marker = new maplibregl.Marker({color: "#FB9F2C"}).setLngLat(marker[counter])
+            .setPopup(new maplibregl.Popup().setHTML(passenger_1 + "'s Pickup")).addTo(map);
         }
-        document.getElementById("shared").value = passenger_1 + " & " + passenger_2
-    }
-    else {
-        console.log("JustRide")
-        for(let counter = 0; counter < marker.length; counter++)
-        {
-            if (counter == 0) {         // [0] is first passenger's pickup
-                var pickup_marker = new maplibregl.Marker({color: "#FB9F2C"})
-                .setLngLat(marker[counter])
-                .setPopup(new maplibregl.Popup().setHTML(passenger_1+"'s Pickup")).addTo(map);
-            }
-            else {    // [1] is first passenger's dropoff
-                var pickup_marker = new maplibregl.Marker({color: "#B191EB"})
-                .setLngLat(marker[counter])
-                .setPopup(new maplibregl.Popup().setHTML(passenger_1+"'s Dropoff")).addTo(map);
-            }
-            /*if(counter % 2 == 0)
-            {
-                var pickup_marker = new maplibregl.Marker({color: "#FB9F2C"})
-                .setLngLat(marker[counter])
-                .setPopup(new maplibregl.Popup().setHTML(passenger_1+"'s Pickup")).addTo(map);
-            }
-            else
-            {
-                var location_marker = new maplibregl.Marker({color: "#B191EB"})
-                .setPopup(new maplibregl.Popup().setHTML(passenger_1+"'s Dropoff"))
-                .setLngLat(marker[counter]).addTo(map);
-            }*/
-            document.getElementById("single").value = passenger_1
+        else if (counter == 1) {    // [1] is first passenger's dropoff
+            var pickup_marker = new maplibregl.Marker({color: "#B191EB"}).setLngLat(marker[counter])
+            .setPopup(new maplibregl.Popup().setHTML(passenger_1+"'s Dropoff")).addTo(map);
+        }
+        else if (counter == 2) {    // [2] is second passenger's pickup
+            var pickup_marker = new maplibregl.Marker({color: "#FB9F2C"}).setLngLat(marker[counter])
+            .setPopup(new maplibregl.Popup().setHTML(passenger_2 + "'s Pickup")).addTo(map);
+        }
+        else {                      // [3] is second passenger's dropoff
+            var pickup_marker = new maplibregl.Marker({color: "#B191EB"}) .setLngLat(marker[counter])
+            .setPopup(new maplibregl.Popup().setHTML(passenger_2 + "'s Dropoff")).addTo(map);
         }
     }
+
 
 
     // A simple line from origin to destination.

@@ -69,25 +69,25 @@
                             <!--Keyword-->
                             <div class="form-group my-2 pt-2">
 								<h6 class="mb-0" style="font-size: 16px; font-weight: bold">Passenger's Name(s)</h6>
-                                <h6 style="font-style: italic;">{{detail[index][0]}}</h6>
+                                <h6 style="font-style: italic;">{{data.detail[data.index][0]}}</h6>
                             </div>
 
 							<!--Keyword-->
                             <div class="form-group my-2 pt-2">
 								<h6 class="mb-0" style="font-size: 16px; font-weight: bold">Driver's Name</h6>
-                                <h6 style="font-style: italic;">{{detail[index][1]}}</h6>
+                                <h6 style="font-style: italic;">{{data.detail[data.index][1]}}</h6>
                             </div>
 
                             <!--Keyword-->
                             <div class="form-group my-2 pt-2">
 								<h6 class="mb-0" style="font-size: 16px; font-weight: bold">Pick-Up Location(s)</h6>
-                                <h6 style="font-style: italic;">{{detail[index][2]}}</h6>
+                                <h6 style="font-style: italic;">{{data.detail[data.index][2]}}</h6>
                             </div>
 
 							<!--Keyword-->
                             <div class="form-group my-2 pt-2">
 								<h6 class="mb-0" style="font-size: 16px; font-weight: bold">Drop-Off Location(s)</h6>
-                                <h6 style="font-style: italic;">{{detail[index][3]}}</h6>
+                                <h6 style="font-style: italic;">{{data.detail[data.index][3]}}</h6>
                             </div>
 
                         </div>
@@ -120,16 +120,16 @@
                             <!--JustRide-->
                             <select class="custom-select my-2" id="single" name="selectedPass">
                                 <option value="default" disabled selected>JustRide</option>
-                                {% for index in range(just_ride) %}
-                                    <option value="{{detail[index][0]}}">{{detail[index][0]}}</option>
+                                {% for index in range(data.just_ride) %}
+                                    <option value="{{data.detail[index][0]}}">{{data.detail[index][0]}}</option>
                                 {% endfor %}
                             </select>
 
                             <!--RideShare-->
-                            <select class="custom-select my-2" id="shared" name="selectedSharedPass">
+                            <select class="custom-select my-2" id="shared" name="selectedPass">
                                 <option value="default" disabled selected>RideShare</option>
-                                {% for index in range(size - just_ride - 1) %}
-                                    <option value="{{detail[index + just_ride][0]}}">{{detail[index + just_ride][0]}}</option>
+                                {% for index in range(data.size - data.just_ride) %}
+                                    <option value="{{data.detail[index + data.just_ride][0]}}">{{data.detail[index + data.just_ride][0]}}</option>
                                 {% endfor %}
                             </select>
 
@@ -169,10 +169,10 @@
 <script src="{{ url_for('static', filename='custom.js') }}"></script>
 <script src="{{ url_for('static', filename='map-leaflet.js') }}"></script>
 <script type = "text/javascript">
-    var passenger_1 = '{{ passenger_1 }}'
-    var passenger_2 = '{{ passenger_2 }}'
+    var passenger_1 = '{{ data.passenger_1 }}'
+    var passenger_2 = '{{ data.passenger_2 }}'
     var traffic = '{{ traffic }}'
-    var route_path = UI({{route|tojson}}, {{marker|tojson}})
+    var route_path = UI({{ data.route|tojson }}, {{ data.marker|tojson }})
 </script>
 <script type="text/javascript" src="script.js"></script>
 
