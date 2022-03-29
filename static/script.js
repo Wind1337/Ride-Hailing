@@ -1,9 +1,7 @@
 function UI(route_path, marker)
 {
-    console.log(traffic)
     if (traffic == 'traffic')
     {
-        console.log(traffic)
         document.getElementById("traffic").checked = true;
     }
 
