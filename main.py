@@ -29,6 +29,10 @@ def index():
 
     if request.method == "POST":
         find_route(request.form.get("selectedPass"))
+        traffic_checked = request.form.get("trafficChecked")
+
+        # None = not checked, 'traffic' = checked
+        print(traffic_checked)
 
         return render_template('index.html', data=dictionary)
     else:

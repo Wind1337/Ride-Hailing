@@ -104,7 +104,7 @@
                 <div class="ts-form__map-search ts-z-index__2" style="position: absolute; bottom: 20px; right: 35px;">
 
 					<!--Form-->
-                    <form class="ts-form" style="margin-top: 5px;" action="/index" method="POST" id="optionForm" onchange="submitForm();">
+                    <div class="ts-form" style="margin-top: 5px;">
 
                         <!--Collapse button-->
                         <a href=".ts-form-collapse2" data-toggle="collapse" class="ts-center__vertical justify-content-between">
@@ -114,29 +114,33 @@
                         <!--Form-->
                         <div class="ts-form-collapse2 ts-xs-hide-collapse collapse show">
 
-                            <input type="checkbox" id="traffic" name="trafficChecked" value="traffic">
-                            <label for="traffic" style="font-size: 16px; font-weight: 400;">Traffic Data</label>
+                            <form action="/index" method="POST" id="optionForm" onchange="submitForm();">
 
-                            <!--JustRide-->
-                            <select class="custom-select my-2" id="single" name="selectedPass">
-                                <option value="default" disabled selected>JustRide</option>
-                                {% for index in range(data.just_ride) %}
-                                    <option value="{{data.detail[index][0]}}">{{data.detail[index][0]}}</option>
-                                {% endfor %}
-                            </select>
+                                <input type="checkbox" id="traffic" name="trafficChecked" value="traffic">
+                                <label for="traffic" style="font-size: 16px; font-weight: 400;">Traffic Data</label>
 
-                            <!--RideShare-->
-                            <select class="custom-select my-2" id="shared" name="selectedPass">
-                                <option value="default" disabled selected>RideShare</option>
-                                {% for index in range(data.size - data.just_ride) %}
-                                    <option value="{{data.detail[index + data.just_ride][0]}}">{{data.detail[index + data.just_ride][0]}}</option>
-                                {% endfor %}
-                            </select>
+                                <!--JustRide-->
+                                <select class="custom-select my-2" id="single" name="selectedPass">
+                                    <option value="default" disabled selected>JustRide</option>
+                                    {% for index in range(data.just_ride) %}
+                                        <option value="{{data.detail[index][0]}}">{{data.detail[index][0]}}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <!--RideShare-->
+                                <select class="custom-select my-2" id="shared" name="selectedPass">
+                                    <option value="default" disabled selected>RideShare</option>
+                                    {% for index in range(data.size - data.just_ride) %}
+                                        <option value="{{data.detail[index + data.just_ride][0]}}">{{data.detail[index + data.just_ride][0]}}</option>
+                                    {% endfor %}
+                                </select>
+
+                            </form>
 
                         </div>
                         <!--end ts-form-collapse-->
 
-                    </form>
+                    </div>
                     <!--end ts-form-->
 
                 </div>

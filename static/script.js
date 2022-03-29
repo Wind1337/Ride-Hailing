@@ -1,10 +1,5 @@
 function UI(route_path, marker)
 {
-    if (passenger_1 == "None")
-    {
-        document.getElementById("traffic").disabled = true;
-    }
-
     var map = new maplibregl.Map({
         container: 'ts-map-hero',
         style: 'https://api.maptiler.com/maps/streets/style.json?key=b74gkn1VskvsZy9K7x1q',
@@ -173,5 +168,12 @@ document.body.innerHTML = document.body.innerHTML.replace(/AND/g, '<br><br>')
 
 function submitForm()
 {
-  document.getElementById('optionForm').submit();
+    var selectedSingle = document.getElementById('single').value;
+    var selectedShared = document.getElementById('shared').value;
+    console.log(selectedSingle)
+    console.log(selectedShared)
+    if (selectedSingle != 'default' || selectedShared != 'default')
+    {
+        document.getElementById('optionForm').submit();
+    }
 }
