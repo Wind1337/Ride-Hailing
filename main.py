@@ -13,6 +13,11 @@ import ssl
 ctx = ssl.create_default_context(cafile=certifi.where())
 geopy.geocoders.options.default_ssl_context = ctx
 
+single_passenger_name = None
+shared_passenger_name = None
+passenger_name = None
+trafficCheckbox = None
+
 app = Flask(__name__)
 
 # add a SECRET_KEY in the application configuration to take advantage of csrf protection
@@ -27,43 +32,50 @@ app.config.update(dict(
 @app.route('/index', methods=['POST', 'GET'])
 def index():
     plot = []
+    global single_passenger_name
+    global shared_passenger_name
+    global trafficCheckbox
+    global passenger_name
 
     if request.method == "POST":
-        passenger_name = request.form.get("selectedPass")
-        traffic_checked = request.form.get("trafficChecked")
-        if traffic_checked is None:
-            passenger_index, plot, marker = find_route(passenger_name)
-            try:
-                passenger_1, passenger_2 = passenger_name.split(" & ")
-            except ValueError:
-                passenger_1 = passenger_name
-                passenger_2 = ""
-            return render_template('index.html', detail=detail, index=passenger_index, just_ride=just_ride,
-                                   size=len(detail), route=plot, marker=marker, passenger_1=passenger_1,
-                                   passenger_2=passenger_2)
+        print(request.form.get("selectedPass"))
+        print(request.form.get("selectedSharedPass"))
+        print(request.form.get("trafficChecked"))
+        if(request.form.get("trafficChecked")) != trafficCheckbox:
+            if request.form.get("trafficChecked"):
+                trafficCheckbox = True
+            else:
+                trafficCheckbox = None
         else:
-            # CHECKBOX DOESN'T WORK YET
-            print(traffic_checked)
-
-            passenger_index, plot, marker = find_route(passenger_name)
-            try:
-                passenger_1, passenger_2 = passenger_name.split(" & ")
-            except ValueError:
-                passenger_1 = passenger_name
-                passenger_2 = ""
+            if request.form.get("selectedPass") != single_passenger_name:
+                passenger_name = request.form.get("selectedPass")
+            else:
+                passenger_name = request.form.get("selectedSharedPass")
+        single_passenger_name = request.form.get("selectedPass")
+        shared_passenger_name = request.form.get("selectedSharedPass")
+        passenger_index, plot, marker = find_route(passenger_name)
+        try:
+            passenger_1, passenger_2 = passenger_name.split(" & ")
+        except ValueError:
+            passenger_1 = passenger_name
+            passenger_2 = ""
+        if trafficCheckbox:
             return render_template('index.html', detail=detail, index=passenger_index, just_ride=just_ride,
                                    size=len(detail), route=plot, marker=marker, passenger_1=passenger_1,
-                                   passenger_2=passenger_2)
-
+                                   passenger_2=passenger_2, traffic="true")
+        else:
+            return render_template('index.html', detail=detail, index=passenger_index, just_ride=just_ride,
+                                    size=len(detail), route=plot, marker=marker, passenger_1=passenger_1,
+                                    passenger_2=passenger_2, traffic="false")
     else:
         plot.append([nodeDict.get(matchResult[0][0].pickup)[1], nodeDict.get(matchResult[0][0].pickup)[0]])
         detail.append([" ", " ", " ", " "])
-
         return render_template('index.html', detail=detail, index=len(detail) - 1, just_ride=just_ride,
                                size=len(detail), route=plot, marker='', passenger_1='None')
 
 
 def find_route(passenger_name):
+    global trafficCheckbox
     route_path = []
     plot = []
     marker = []
@@ -110,8 +122,10 @@ def find_route(passenger_name):
             pass
 
     for counter in range(len(node) - 1):
-
-        temp = route(node[counter], node[counter + 1])
+        if(trafficCheckbox):
+            temp = routewithtraffic(node[counter], node[counter + 1])
+        else:
+            temp = route(node[counter], node[counter + 1])
 
         for element in temp:
             route_path.append(element)

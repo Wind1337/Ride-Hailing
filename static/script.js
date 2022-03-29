@@ -7,6 +7,14 @@ function UI(route_path, marker)
     else {
         document.getElementById("traffic").disabled = false;
     }
+    if (traffic == "true"){
+        document.getElementById("traffic").checked = true;
+    }
+    else{
+        document.getElementById("traffic").checked = false;
+    }
+    document.getElementById("single").value = "default"
+    document.getElementById("shared").value = "default"
 
     var map = new maplibregl.Map({
         container: 'ts-map-hero',
@@ -46,6 +54,7 @@ function UI(route_path, marker)
                 .setPopup(new maplibregl.Popup().setHTML(passenger_2+"'s Dropoff")).addTo(map);
             }
         }
+        document.getElementById("shared").value = passenger_1 + " & " + passenger_2
     }
     else {
         console.log("JustRide")
@@ -73,6 +82,7 @@ function UI(route_path, marker)
                 .setPopup(new maplibregl.Popup().setHTML(passenger_1+"'s Dropoff"))
                 .setLngLat(marker[counter]).addTo(map);
             }*/
+            document.getElementById("single").value = passenger_1
         }
     }
 

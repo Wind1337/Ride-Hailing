@@ -121,5 +121,5 @@ def routewithtraffic(startNodeID,endNodeID):
 
 
 # !!! THIS LINE IS ONLY TO TEST IF ROUTING WORKS !!!
-print(route(6542773042, 4600448914))
-print(routewithtraffic(6542773042, 4600448914))
+#print(route(6542773042, 4600448914))
+#print(routewithtraffic(6542773042, 4600448914))
