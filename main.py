@@ -64,7 +64,6 @@ def find_route(passenger_name, traffic):
                            nodeDict.get(matchResult[passenger_index][0].pickup)[0]])
             marker.append([nodeDict.get(matchResult[passenger_index][0].dropoff)[1],
                            nodeDict.get(matchResult[passenger_index][0].dropoff)[0]])
-
             break
 
         try:
@@ -98,26 +97,18 @@ def find_route(passenger_name, traffic):
             route_path.append(element)
 
     for index in range(len(route_path)):
-
         for element in nodes_data['nodes']:
-
             if element['nodeID'] == route_path[index]:
-
                 with open("data/edges.json") as edges_file:
                     edges_data = json.load(edges_file)
-
                     for token in edges_data['edges']:
-
                         try:
                             if token['fromNode'] == route_path[index] and token['toNode'] == route_path[index + 1]:
-
                                 for data in token['coordinates']:
                                     plot.append(data)
-
                                 edges += 1
                         except:
                             pass
-
                 if edges == 0:
                     plot.append([element['longitude'], element['latitude']])
                     edges = 0

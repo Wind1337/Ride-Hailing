@@ -62,7 +62,8 @@ def findRoute(graph: WeightedGraph, startID, endID):
 
     while not pqueue.isEmpty():
         currentNode = pqueue.dequeue()
-        if currentNode["ID"] == endID: return routeTable
+        if currentNode["ID"] == endID:
+            return routeTable
 
         for i in graph.neighbour(currentNode["ID"]):
             Gscore = GscoreTable[currentNode["ID"]] + graph.cost(currentNode["ID"], i)
@@ -92,8 +93,6 @@ def route(startNodeID, endNodeID):
     resultRouteTable = findRoute(graph, startNodeID, endNodeID)
     if resultRouteTable:
         resultPath = reconstruct_path(resultRouteTable, startNodeID, endNodeID)
-        # pathDict = {"path": resultPath}
-        # print(resultPath)
         return resultPath
     else:
         return ["Path Not Found"]
@@ -112,14 +111,6 @@ def routewithtraffic(startNodeID,endNodeID):
     resultRouteTable = findRoute(trafficGraph, startNodeID, endNodeID)
     if resultRouteTable:
         resultPath = reconstruct_path(resultRouteTable, startNodeID, endNodeID)
-        # pathDict = {"path": resultPath}
-        # print(resultPath)
         return resultPath
     else:
         return ["Path Not Found"]
-
-
-
-# !!! THIS LINE IS ONLY TO TEST IF ROUTING WORKS !!!
-#print(route(6751845223, 6673520271))
-#print(routewithtraffic(6542773042, 4600448914))
