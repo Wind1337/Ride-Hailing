@@ -97,17 +97,18 @@ def route(startNodeID, endNodeID):
     else:
         return ["Path Not Found"]
 
-def routewithtraffic(startNodeID,endNodeID):
-    noTraffic = route(startNodeID,endNodeID)
-    trafficX = int(len(noTraffic)/10)
-    jamNode =[]
-    for i in range(trafficX,-1,-1):
-        jamNode.append(noTraffic[int(len(noTraffic)/2)-i])
-    for i in range(1,trafficX+1):
+
+def routewithtraffic(startNodeID, endNodeID):
+    noTraffic = route(startNodeID, endNodeID)
+    trafficX = int(len(noTraffic) / 10)
+    jamNode = []
+    for i in range(trafficX, -1, -1):
+        jamNode.append(noTraffic[int(len(noTraffic) / 2) - i])
+    for i in range(1, trafficX + 1):
         jamNode.append(noTraffic[int(len(noTraffic) / 2) + i])
     trafficGraph = initGraph()
-    for x in range(1,len(jamNode)):
-        trafficGraph.edges.get(jamNode[x-1])[jamNode[x]] *= 1000
+    for x in range(1, len(jamNode)):
+        trafficGraph.edges.get(jamNode[x - 1])[jamNode[x]] *= 1000
     resultRouteTable = findRoute(trafficGraph, startNodeID, endNodeID)
     if resultRouteTable:
         resultPath = reconstruct_path(resultRouteTable, startNodeID, endNodeID)
