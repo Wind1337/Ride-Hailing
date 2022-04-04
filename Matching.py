@@ -100,7 +100,7 @@ def sharedMatch(currentPassenger, PassengerList, DriverList, sharedMatchList, no
             # Get the straight line distance between the 2 passenger's drop-off points
             dropoffDistanceDelta = approxDistance(currentPassenger1.dropoff, currentPassenger2.dropoff, nodeDict)
             # Go next if the distance between the 2 points are more than 1km apart
-            if pickupDistanceDelta > 1000 and dropoffDistanceDelta > 1000:
+            if pickupDistanceDelta > 1000 or dropoffDistanceDelta > 1000:
                 currentPassenger = currentPassenger.next
             else:
                 # Find a suitable driver
